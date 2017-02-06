@@ -1,2 +1,4 @@
 *.fa
 *.fq
+*.sam
+*.bam

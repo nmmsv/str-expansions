@@ -2,3 +2,5 @@
 *.fq
 *.sam
 *.bam
+*.bai
+*.sorted

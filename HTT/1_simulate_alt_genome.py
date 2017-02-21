@@ -69,6 +69,7 @@ with open (refFastaDir, 'r') as refFasta:
 	refFasta.readline().strip()
 	refHap = refFasta.readline().strip()
 
+print 'Calling bedtools getfasta..'e
 # Generating prefix and suffix for altered (STR nCopy changed) haplotype
 subprocess.call(['bedtools', 'getfasta', \
 	'-fi', refGenomeDir, \
@@ -87,7 +88,7 @@ with open (suffixFastaDir, 'r') as sufFile:
 	suffixHap = sufFile.readline().strip()
 
 simGenDir = repoDir + expName + '/simulated_genome/'
-print 'Calling bedtools getfasta..'
+
 for nc in nCopyList:	
 	with open(simGenDir + expName +'_' + str(nc) + '.fa', 'w') as f:
 		f.write('>' + expName + '_' + str(nc) + '_altAllele\n')

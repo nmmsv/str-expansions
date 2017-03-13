@@ -66,4 +66,11 @@ for nc in nCopyList:
 			refGenomeDir + ' ' +  inFq1 + ' ' + inFq2 +\
 			' -R \'@RG\\tID:' + expName + '\\tSM:' + nCopy +\
 			'\\tLB:lb\\tPL:pl\' > ' + outFile + '.sam')
+	os.system('samtools view -bT ' + refGenomeDir+\
+			' ' + outFile + '.sam' + ' > '+\
+			outFile + '.bam')
+	os.system('samtools sort -o ' + outFile + '.sorted.bam '+\
+			outFile + '.bam')
+	os.system('samtools index ' + outFile + '.sorted.bam ' +\
+			outFile + '.sorted.bai')
 	

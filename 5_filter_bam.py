@@ -76,8 +76,8 @@ for nc in nCopyList:
 
 	os.system('samtools view -bT ' + refGenomeDir+\
 			' ' + outFile + '_flt.sam' + ' > '+\
+			outFile + '_flt.bam')
+	os.system('samtools sort -o ' + outFile + '_flt.sorted.bam '+\
 			outFile + '.bam')
-	os.system('samtools sort -o ' + outFile + '.sorted.bam '+\
-			outFile + '.bam')
-	os.system('samtools index ' + outFile + '.sorted.bam ' +\
-			outFile + '.sorted.bai')
+	os.system('samtools index ' + outFile + '_flt.sorted.bam ' +\
+			outFile + '_flt.sorted.bai')

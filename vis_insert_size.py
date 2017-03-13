@@ -64,7 +64,7 @@ for nc in nCopyList:
 
 	os.system('samtools view ' + repoDir + expName +\
 		'/aligned_read/' + expName + '_' + nCopy +\
-		'/' + expName + '_' + nCopy + '.bam | cut -f 9 | sort | uniq -c | \
+		'/' + expName + '_' + nCopy + '_flt.bam | cut -f 9 | sort | uniq -c | \
 		tr -s \' \' \'\\t\' | sed -e \'s/^[ \\t]*//\' > ' \
 		+ repoDir + expName + '/temp/tempHist.txt')
 
@@ -122,8 +122,8 @@ for nc in nCopyList:
 	cent = (param1[0] + param0[0]) / 2
 	stdd = max(param0[1], param1[1])
 	xplot = np.linspace(cent - 10 * stdd, cent + 10 * stdd, 100)
-	ax.plot(xplot, 160 * gauss(xplot, param0[0], param0[1], param0[2]), color = 'red', lw = 3, label = 'model0')
-	ax.plot(xplot, 160 * gauss(xplot, param1[0], param1[1], param1[2]), color = 'blue', lw = 3, label = 'model1')
+	ax.plot(xplot, max(y) * gauss(xplot, param0[0], param0[1], param0[2]), color = 'red', lw = 3, label = 'model0')
+	ax.plot(xplot, max(y) * gauss(xplot, param1[0], param1[1], param1[2]), color = 'blue', lw = 3, label = 'model1')
 	fig.savefig(outPath)
 
 

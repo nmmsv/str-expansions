@@ -57,7 +57,7 @@ mkdir_p(repoDir + expName + '/temp')
 with open (repoDir + locus, 'r') as f:
 	for row in csv.reader(f, dialect='excel-tab'):
 		print 'STR locus: ', row
-		chrom = int(row[0])
+		chrom = row[0]
 		startLoc = int(row[1])
 		endLoc = int(row[2])
 
@@ -67,15 +67,15 @@ endFlank = endLoc + flankLength
 
 print '# Creating temp bed files..'
 refBed = open(repoDir + expName + '/temp/tempRefBed.bed', 'w')
-refBed.write(str(chrom) + '\t' + str(beginFlank) + '\t' + str(endFlank) + '\n')
+refBed.write(chrom + '\t' + str(beginFlank) + '\t' + str(endFlank) + '\n')
 refBed.close()
 
 prefixBed = open(repoDir + expName + '/temp/tempPrefixBed.bed', 'w')
-prefixBed.write(str(chrom) + '\t' + str(beginFlank) + '\t' + str(startLoc) + '\n')
+prefixBed.write(chrom + '\t' + str(beginFlank) + '\t' + str(startLoc) + '\n')
 prefixBed.close()
 
 suffixBed = open(repoDir + expName + '/temp/tempSuffixBed.bed', 'w')
-suffixBed.write(str(chrom) + '\t' + str(endLoc) + '\t' + str(endFlank) + '\n')
+suffixBed.write(chrom + '\t' + str(endLoc) + '\t' + str(endFlank) + '\n')
 suffixBed.close()
 
 refFastaDir = repoDir + expName + '/temp/' + expName + '_ref.fa'

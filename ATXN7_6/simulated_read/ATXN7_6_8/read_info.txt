@@ -1,4 +1,4 @@
-Simulated read using 'wgsim' for experiment ATXN7_4, nCopy = 4
+Simulated read using 'wgsim' for experiment ATXN7_6, nCopy = 8
 Parameters:
 -d	500		Outer distance between two pairs
 -s	50		Standard deviation

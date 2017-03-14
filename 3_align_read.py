@@ -73,4 +73,5 @@ for nc in nCopyList:
 			outFile + '.bam')
 	os.system('samtools index ' + outFile + '.sorted.bam ' +\
 			outFile + '.sorted.bai')
+	os.system('samtools index ' + outFile + '.sorted.bam')
 	

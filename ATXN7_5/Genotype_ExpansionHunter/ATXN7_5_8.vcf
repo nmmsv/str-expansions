@@ -1,0 +1,15 @@
+##fileformat=VCFv4.1
+##INFO=<ID=SVTYPE,Number=1,Type=String,Description="Type of structural variant">
+##INFO=<ID=END,Number=1,Type=Integer,Description="End position of the variant">
+##INFO=<ID=REF,Number=1,Type=Integer,Description="Reference copy number">
+##INFO=<ID=RL,Number=1,Type=Integer,Description="Reference length in bp">
+##INFO=<ID=RU,Number=1,Type=String,Description="Repeat unit in the reference orientation">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=SO,Number=1,Type=String,Description="Type of reads that support the allele; can be SPANNING, FLANKING, or INREPEAT meaning that the reads span, flank, or are fully contained in the repeat">
+##FORMAT=<ID=SP,Number=1,Type=String,Description="Number of reads supporting the allele">
+##FORMAT=<ID=CN,Number=1,Type=String,Description="Allele copy number">
+##FORMAT=<ID=CI,Number=1,Type=String,Description="Confidence interval for CN">
+##ALT=<ID=STR8,Description="Allele comprised of 8 repeat units">
+##ALT=<ID=STR91,Description="Allele comprised of 91 repeat units">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	ATXN7_5_8.sorted
+3	63898360	ATXN7	GGCAGCAGCAGCAGCAGCAGCAGCAGCAGCA	<STR8>,<STR91>	.	PASS	SVTYPE=STR;END=63898390;REF=10;RL=30;RU=GCA	GT:SO:SP:CN:CI	0/1/2:SPANNING/SPANNING/INREPEAT:1026/8/32:10/8/91:././75-107

@@ -75,8 +75,8 @@ for nc in nCopyList:
 	subprocess.call(['wgsim',\
 			'-d', str(dist),\
 			'-s', str(stdDev),\
-                        '-e', str(0.0),\
-                        '-r', str(0.0),\
+#                        '-e', str(0.0),\
+#                        '-r', str(0.0),\
                         '-1', str(l1),\
 			'-2', str(l2),\
 			'-N', str(numReads),\

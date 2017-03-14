@@ -16,6 +16,8 @@ def mkdir_p(path):
             pass
         else:
             raise
+print sys.argv
+
 
 if len(sys.argv) < 2:
 	print '### Usage python 1_simulate_alt_genome.py expName locus motif flankLength refGenomeDir repoDir nCopyCount nCopy1 nCopy2 ...'

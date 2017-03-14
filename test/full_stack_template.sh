@@ -22,16 +22,16 @@
 # numReads=100000
 
 
-expName=ATXN7_4
+expName=ATXN7_5
 motif=GCA
 disease=ATXN7
-flankLength=1000
+flankLength=5000
 refGenomeDir=/storage/resources/dbase/human/hs37d5/hs37d5.fa
 repoDir=/storage/nmmsv/str-expansions/
 l=120
 dist=500
 stdDev=50
-numReads=1000
+numReads=100000
 
 cd /storage/nmmsv/str-expansions/
 

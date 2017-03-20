@@ -33,6 +33,6 @@
     "BamStats":
     {
         "ReadLength": "120",
-        "MedianDepth": "50"
+        "MedianDepth": "1"
     }
 }

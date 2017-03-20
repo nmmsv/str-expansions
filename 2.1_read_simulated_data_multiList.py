@@ -78,44 +78,50 @@ print '# Base error (-e): ', error
 print ''
 print '## Parameter list: ', paramList
 
-
-simReadDir = repoDir + expName + '/simulated_read/'
+expDir = repoDir + 'experiments/'
+simReadDir = expDir + expName + '/simulated_read/'
 print '# Creating new directories..'
 mkdir_p(simReadDir)
 
 for pr in paramList:
 	if param == "nC":
-		nCopy = pr
+		nCop = pr
+		numR = numReads
+		err  = error
 	elif param == "nR":
-		numRead = pr
+		numR = pr
+		nCop = nCopy
+		err  = error
 	elif param == "er":
-		error = pr
+		err  = pr
+		numR = numReads
+		nCop = nCopy
 	else:
 		print 'Wrong param = ', param
 		sys.exit()
 
 	caseDir = simReadDir + expName + '_' + param + '_' + pr
-	inFa = repoDir + expName + '/simulated_genome/' + expName + '_' + nCopy + '.fa'
-	outFq1 = caseDir + '/' + expName + '_' + nCopy + '.read1.fq'
-	outFq2 = caseDir + '/' + expName + '_' + nCopy + '.read2.fq'
+	inFa = expDir + expName + '/simulated_genome/' + expName + '_' + nCop + '.fa'
+	outFq1 = caseDir + '/' + expName + '_' + nCop + '.read1.fq'
+	outFq2 = caseDir + '/' + expName + '_' + nCop + '.read2.fq'
 	mkdir_p(caseDir)
 	print '# Generating files: ', outFq1
 	subprocess.call(['wgsim',\
 			'-d', str(dist),\
 			'-s', str(stdDev),\
-            '-e', str(error),\
+            '-e', str(err),\
             '-r', str(0.0),\
         	'-1', str(l1),\
 			'-2', str(l2),\
-			'-N', str(numReads),\
+			'-N', str(numR),\
 			inFa, outFq1, outFq2])
 	with open(caseDir + '/read_info.txt', 'w') as f:
-		f.write('Simulated read using \'wgsim\' for experiment ' + expName + ', nCopy = ' + nCopy + ', ' + param + ' ' + pr + '\n')
+		f.write('Simulated read using \'wgsim\' for experiment ' + expName + ', nCopy = ' + nCop + ', ' + param + ' ' + pr + '\n')
 		f.write('Parameters:\n')
 		f.write('-d\t' + str(dist) + '\t\tOuter distance between two pairs\n')
 		f.write('-s\t' + str(stdDev) + '\t\tStandard deviation\n')
-		f.write('-N\t' + str(numReads) + '\tNumber of reads\n')
-		f.write('-N\t' + str(error) + '\tBase Error\n')
+		f.write('-N\t' + str(numR) + '\tNumber of reads\n')
+		f.write('-e\t' + str(err) + '\tBase Error\n')
 		f.write('-1\t' + str(l1) + '\t\tLength of first Read\n')
 		f.write('-2\t' + str(l2) + '\t\tLength of second Read\n')
 

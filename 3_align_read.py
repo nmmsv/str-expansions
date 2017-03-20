@@ -44,12 +44,13 @@ print '# Number of threads: ', numThreads
 print 
 
 print '# Creating new directories..'
-outDir = repoDir + expName + '/aligned_read/'
+expDir = repoDir + 'experiments/'
+outDir = expDir + expName + '/aligned_read/'
 mkdir_p(outDir)
 
 for nc in nCopyList:
 	nCopy = str(nc)
-	readCaseDir = repoDir + expName + '/simulated_read/' + expName + '_' + nCopy
+	readCaseDir = expDir + expName + '/simulated_read/' + expName + '_' + nCopy
 	inFq1 = readCaseDir + '/' + expName + '_' + nCopy + '.read1.fq'
 	inFq2 = readCaseDir + '/' + expName + '_' + nCopy + '.read2.fq'
 

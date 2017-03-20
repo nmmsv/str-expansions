@@ -59,15 +59,15 @@ print '# Standard Deviation of outer distance (-s): ', stdDev
 print '# Length of first read (-1): ', l1
 print '# Length of second read (-2): ', l2
 print '# Number of read pairs (-N): ', numReads
-
-simReadDir = repoDir + expName + '/simulated_read/'
+expDir = repoDir + 'experiments/'
+simReadDir = expDir + expName + '/simulated_read/'
 print '# Creating new directories..'
 mkdir_p(simReadDir)
 
 for nc in nCopyList:
 	nCopy = str(nc)
 	caseDir = simReadDir + expName + '_' + nCopy
-	inFa = repoDir + expName + '/simulated_genome/' + expName + '_' + nCopy + '.fa'
+	inFa = expDir + expName + '/simulated_genome/' + expName + '_' + nCopy + '.fa'
 	outFq1 = caseDir + '/' + expName + '_' + nCopy + '.read1.fq'
 	outFq2 = caseDir + '/' + expName + '_' + nCopy + '.read2.fq'
 	mkdir_p(caseDir)

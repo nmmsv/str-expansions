@@ -1,0 +1,31 @@
+{
+    "ATXN7":
+    {
+        "RepeatId": "ATXN7",
+        "TargetRegion": "3:63898361-63898390",
+        "AnchoredIrrCount": "0",
+        "OffTargetRegionIrrCounts": "",
+        "UnalignedIrrCount": "0",
+        "IrrCount": "0",
+        "RepeatSizes":
+        {
+            "Allele1":
+            {
+                "Size": "10",
+                "Source": "SPANNING",
+                "NumSupportingReads": "225"
+            },
+            "Allele2":
+            {
+                "Size": "16",
+                "Source": "SPANNING",
+                "NumSupportingReads": "7"
+            }
+        }
+    },
+    "BamStats":
+    {
+        "ReadLength": "37",
+        "MedianDepth": "1"
+    }
+}

@@ -1,0 +1,38 @@
+##fileformat=VCFv4.1
+##command=HipSTR-v0.2-243-gfa5a012 --bams /storage/nmmsv/str-expansions/ATXN7_err/aligned_read/ATXN7_err_er_0.03/ATXN7_err_8.sorted.bam --fasta /storage/resources/dbase/human/hs37d5/hs37d5.fa --regions /storage/nmmsv/str-expansions/loci/ATXN7.bed --str-vcf /storage/nmmsv/str-expansions/ATXN7_err/Genotype_HipSTR/ATXN7_err_er_0.03.vcf.gz --min-reads 2
+##INFO=<ID=INFRAME_PGEOM,Number=1,Type=Float,Description="Parameter for in-frame geometric step size distribution">
+##INFO=<ID=INFRAME_UP,Number=1,Type=Float,Description="Probability that stutter causes an in-frame increase in obs. STR size">
+##INFO=<ID=INFRAME_DOWN,Number=1,Type=Float,Description="Probability that stutter causes an in-frame decrease in obs. STR size">
+##INFO=<ID=OUTFRAME_PGEOM,Number=1,Type=Float,Description="Parameter for out-of-frame geometric step size distribution">
+##INFO=<ID=OUTFRAME_UP,Number=1,Type=Float,Description="Probability that stutter causes an out-of-frame increase in read's STR size">
+##INFO=<ID=OUTFRAME_DOWN,Number=1,Type=Float,Description="Probability that stutter causes an out-of-frame decrease in read's STR size">
+##INFO=<ID=BPDIFFS,Number=A,Type=Integer,Description="Base pair difference of each alternate allele from the reference allele">
+##INFO=<ID=START,Number=1,Type=Integer,Description="Inclusive start coodinate for the repetitive portion of the reference allele">
+##INFO=<ID=END,Number=1,Type=Integer,Description="Inclusive end coordinate for the repetitive portion of the reference allele">
+##INFO=<ID=PERIOD,Number=1,Type=Integer,Description="Length of STR motif">
+##INFO=<ID=AN,Number=1,Type=Integer,Description="Total number of alleles in called genotypes">
+##INFO=<ID=REFAC,Number=1,Type=Integer,Description="Reference allele count">
+##INFO=<ID=AC,Number=A,Type=Integer,Description="Alternate allele counts">
+##INFO=<ID=NSKIP,Number=1,Type=Integer,Description="Number of samples not genotyped due to various issues">
+##INFO=<ID=NFILT,Number=1,Type=Integer,Description="Number of samples whose genotypes were filtered due to various issues">
+##INFO=<ID=DP,Number=1,Type=Integer,Description="Total number of valid reads used to genotype all samples">
+##INFO=<ID=DSNP,Number=1,Type=Integer,Description="Total number of reads with SNP phasing information">
+##INFO=<ID=DSTUTTER,Number=1,Type=Integer,Description="Total number of reads with a stutter indel in the STR region">
+##INFO=<ID=DFLANKINDEL,Number=1,Type=Integer,Description="Total number of reads with an indel in the regions flanking the STR">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=GB,Number=1,Type=String,Description="Base pair differences of genotype from reference">
+##FORMAT=<ID=Q,Number=1,Type=Float,Description="Posterior probability of unphased genotype">
+##FORMAT=<ID=PQ,Number=1,Type=Float,Description="Posterior probability of phased genotype">
+##FORMAT=<ID=DP,Number=1,Type=Integer,Description="Number of valid reads used for sample's genotype">
+##FORMAT=<ID=DSNP,Number=1,Type=Integer,Description="Number of reads with SNP phasing information">
+##FORMAT=<ID=PSNP,Number=1,Type=String,Description="Number of reads with SNPs supporting each haploid genotype">
+##FORMAT=<ID=PDP,Number=1,Type=String,Description="Fractional reads supporting each haploid genotype">
+##FORMAT=<ID=GLDIFF,Number=1,Type=Float,Description="Difference in likelihood between the reported and next best genotypes">
+##FORMAT=<ID=DSTUTTER,Number=1,Type=Integer,Description="Number of reads with a stutter indel in the STR region">
+##FORMAT=<ID=DFLANKINDEL,Number=1,Type=Integer,Description="Number of reads with an indel in the regions flanking the STR">
+##FORMAT=<ID=AB,Number=1,Type=Float,Description="log10 of the allele bias pvalue, where 0 is no bias and more negative values are increasingly biased. Not applicable to homozygous genotypes">
+##FORMAT=<ID=DAB,Number=1,Type=Integer,Description="Number of reads used in the allele bias calculation">
+##FORMAT=<ID=ALLREADS,Number=1,Type=String,Description="Base pair difference observed in each read's Needleman-Wunsch alignment">
+##FORMAT=<ID=MALLREADS,Number=1,Type=String,Description="Maximum likelihood bp diff in each read based on haplotype alignments for reads that span the repeat region by at least 5 base pairs">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	8
+3	63898361	.	GCAGCAGCAGCAGCAGCAGCAGCAGCAGCA	GGCAGCAGCAGCAGCAGCAGCAGCA	.	.	INFRAME_PGEOM=0.95;INFRAME_UP=0.01;INFRAME_DOWN=0.01;OUTFRAME_PGEOM=0.95;OUTFRAME_UP=0.01;OUTFRAME_DOWN=0.01;START=63898361;END=63898390;PERIOD=3;NSKIP=0;NFILT=0;BPDIFFS=-5;DP=87;DSNP=0;DSTUTTER=0;DFLANKINDEL=0;AN=2;REFAC=1;AC=1	GT:GB:Q:PQ:DP:DSNP:DSTUTTER:DFLANKINDEL:PDP:PSNP:GLDIFF:ALLREADS:MALLREADS	0|1:0|-5:1.00:0.50:87:0:0:0:40.19|46.81:0|0:278.26:-5|38;0|41:-5|36;0|38

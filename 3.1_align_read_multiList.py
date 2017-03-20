@@ -73,9 +73,10 @@ print '# Number of threads: Fixed in this version', numThreads
 print 
 
 print '# Creating new directories..'
-outDir = repoDir + expName + '/aligned_read/'
+expDir = repoDir + 'experiments/'
+outDir = expDir + expName + '/aligned_read/'
 mkdir_p(outDir)
-simReadDir = repoDir + expName + '/simulated_read/'
+simReadDir = expDir + expName + '/simulated_read/'
 for pr in paramList:
 
 	if param == "nC":

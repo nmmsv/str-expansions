@@ -1,0 +1,425 @@
+ATXN7:
+  SPANNING_10:
+    -
+      name: "ATXN7_err_8_refAllele_615_1077_10:0:0_13:0:0_15c"
+      align: |
+        gagcagcggccgcggacgcccggcagaagcagcagcagcagcagcagcagcagaagcagcatccgcagccccaccggaagcacaacccccctccgccccc
+        ||||||||||||||| ||||||                              |  || || |||||||||||| ||| ||||  |||| || ||||| ||
+        GAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCC
+    -
+      name: "ATXN7_err_8_refAllele_551_1065_6:0:0_2:0:0_d"
+      align: |
+        cggcggcgggcggagcagcggccgcggccgcccggcagcagcagcagcagcagcagcagaagcagccgccgcctccgcagcccctgcggcagcagcaccc
+        ||||||||||||||||||||||||||||||||||                              |||||||||||||||||||| |||||||||||||||
+        CGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCC
+    -
+      name: "ATXN7_err_8_refAllele_494_1056_9:0:0_5:0:0_17c"
+      align: |
+        gcgcggcggcggcggcgggcggagcagcggccgcggccgcccggcagctgcagcagcagcagcagcagcagcagccgccgcctccgctgaccaagcggaa
+        |||||||||||||||||||||||||||||||||||||||||||                              |||||||||||||| | || ||||| |
+        GCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCA
+    -
+      name: "ATXN7_err_8_refAllele_554_1069_5:0:0_10:0:0_196"
+      align: |
+        ggcgggcggagcagccgacgcgcccgcccggcagcagcagcagcagcagcagcacctgcagccgccgcctcagcagcccaagcggaagcagcaccagcct
+        ||||||||||||||| | |||| |||||||                              ||||||||||| ||||||| ||||| ||||||||| ||| 
+        GGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCA
+    -
+      name: "ATXN7_err_8_refAllele_538_1091_14:0:0_10:0:0_71"
+      align: |
+        gccgcccggcagcaccagcagaagcagcagcaccagcagccgccgccgccgcagcccaagccgcaccagaaccccccacccccgccacggcgcacacggc
+        ||||||||                              ||||||||| ||||||||| ||| ||| ||| |||| ||||| |||||||||||||||||||
+        GCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGC
+    -
+      name: "ATXN7_err_8_refAllele_535_1072_9:0:0_6:0:0_1c4"
+      align: |
+        gcgcggaccagcggccgcggccgcccggcagcagcagaagcaccagcagcagcagcagccgccgcctccgcagccccagcggcagcagcacccgcaaacg
+        | ||||| |||||||||||||||||||                              |||||||||||||||||||||||||||||||||||||| | ||
+        GGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCG
+    -
+      name: "ATXN7_err_8_refAllele_976_1397_11:0:0_8:0:0_f3"
+      align: |
+        cggagcagctgcctcggccgcccggcatcagcagcagcagcatcaggagcagcagcctccggctgcgcagccccctcggcagcagcacccgccaccggcg
+        ||||||||| ||| ||||||||||                              ||| ||| || |||||||||  ||||||||||||||||||||| ||
+        CGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCG
+    -
+      name: "ATXN7_err_8_refAllele_607_1068_5:0:0_6:0:0_14d"
+      align: |
+        cggcgggcggagcagcggccgcggcagcccggcagctcctgcagcagcagcagcagcagcagccgccgcctacgcagcaccagcggcagcagcacccgcc
+        ||||||||||||||||||||||||| |||||                              |||||||||| |||||| |||||||||||||||||||||
+        CGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCC
+    -
+      name: "ATXN7_err_8_refAllele_995_1478_7:0:0_5:0:0_183"
+      align: |
+        gcccggcagcagccgcagcagccgcatcagcagcagccgccgcctccgcagcccgaggggcagcagcacgggccaccgccgccacggcgcacacggccgg
+        |||||                              ||||||||||||||||||| || |||||||||||  |||||||||||||||||||||||||||||
+        GCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGG
+    -
+      name: "ATXN7_err_8_refAllele_541_1041_9:0:0_2:0:0_83"
+      align: |
+        ggggggagccgcgccgcgcggcggcggcggcgggcggagcagcggccgcggccgcccggcagcaccagaagcagcagcagcagcagcagccgccgcctcc
+        ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||                              ||||||||||||
+        GGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCC
+    -
+      name: "ATXN7_err_8_refAllele_544_1062_11:0:0_11:0:0_159"
+      align: |
+        cgccggcggcgggccgagcagcggccgcggccgcccggcagaagctgcaccagcagaagaagcagcacacgccgcctccgcacccccagccgcagcagca
+        || ||||||||||| ||||||||||||||||||||||                                ||||||||||||| ||||||| |||||||||
+        CGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCA
+    -
+      name: "ATXN7_err_8_refAllele_506_1094_7:0:0_4:0:0_185"
+      align: |
+        gcccggcagcagcagcagcacctgcagcagcagcagccgccgcctcagaagccccagcggcagcagcacccgccaccgccgccacggcgcacacggccgg
+        |||||                              ||||||||||| | |||||||||||||||||||||||||||||||||||||||||||||||||||
+        GCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGG
+    -
+      name: "ATXN7_err_8_refAllele_600_1054_4:0:0_12:0:0_d4"
+      align: |
+        ccgcgcgccggcggccgagggcggagcagcggccgccgccgcccggcaccagcagcagcaccagcagaagcagcagcagccgcctccccagcccaacagg
+        ||||||| ||||||| | |||||||||||||||||| ||||||||                              || ||||||||| |||||| |  ||
+        CCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGG
+    -
+      name: "ATXN7_err_8_refAllele_548_1062_9:0:0_10:0:0_1d7"
+      align: |
+        cggcggccgcggccggagcagcggacgcggccgcacggcagcagcagctccagcagcagaagcagcagccgccgcctccgctgacccagccgcagcagca
+        ||||||| |||| ||||||||||| ||||||||| ||                              |||||||||||||| | |||||| |||||||||
+        CGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCA
+    -
+      name: "ATXN7_err_8_refAllele_568_1063_11:0:0_7:0:0_110"
+      align: |
+        ggaggcggcgggcggagcagcgcccgcggccgcccggcagcagcagcagcagctgcagcagcagcagccgccgactccccagacccagcggcagaagcac
+        || ||||||||||||||||||| |||||||||||||                              ||||||| |||| ||| ||||||||||| |||||
+        GGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCAC
+    -
+      name: "ATXN7_err_8_refAllele_692_1075_11:0:0_5:0:0_3a"
+      align: |
+        ccgagcagcggccgcggcaccccggcagcaccagcagcagcagaagcagcagcagccgccgcctccgcagccccagcggcagcagcacccgccaccgccg
+        | ||||||||||||||||  ||||                              ||||||||||||||||||||||||||||||||||||||||||||||
+        CGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCG
+    -
+      name: "ATXN7_err_8_refAllele_558_1044_6:0:0_4:0:0_af"
+      align: |
+        gggagccgcgccgcgcggcggcggcggcgggcggagcagcgcccgcggccgcacggcagcagcagcagcagcagcaccagcagcagccgccgcctccgaa
+        ||||||||||||||||||||||||||||||||||||||||| |||||||||| ||                              ||||||||||||| |
+        GGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCA
+    -
+      name: "ATXN7_err_8_refAllele_952_1453_10:0:0_14:0:0_188"
+      align: |
+        gcgccgcgcgtcggcggcgtctggcggagcagctggcgcggccgcccggcagcagcaggagccgcagcagcagcagcagccgccggctcctcagccgcag
+        |||||||||| |||||||| | ||||||||||| | ||||||||||||                              ||||||| |||| ||||| |||
+        GCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAG
+    -
+      name: "ATXN7_err_8_refAllele_541_1082_13:0:0_4:0:0_41"
+      align: |
+        gcggccgcggccgcccggcagcagcagcagcagcagaagcagcagcagccgccgcctccgcagcccaagcggcagcagcacacgccaccgccgccaccgc
+        |||||||||||||||||                              ||||||||||||||||||| |||||||||||||| ||||||||||||||| ||
+        GCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGC
+    -
+      name: "ATXN7_err_8_refAllele_947_1497_6:0:0_5:0:0_3c"
+      align: |
+        gaggcgcgcggcgcggcggcggcggcgggcggagcagcggccgcgtcctcccggcagcagcatcaggagcagcagcagcagcagccgccgcctccgcagc
+        ||| ||||| ||||||||||||||||||||||||||||||||||| || ||||                              |||||||||||||||||
+        GAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGC
+    -
+      name: "ATXN7_err_8_refAllele_980_1475_11:0:0_9:0:0_1b8"
+      align: |
+        gcagcgggcgcggccgcccggcagccgcagcagcagcaggagcatccgcagccgccgcctccgcagccccatcgggagccgcaggcgccaccgccgcgac
+        ||||||| ||||||||||||                              ||||||||||||||||||||| ||| ||| |||  |||||||||||| ||
+        GCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCAC
+    -
+      name: "ATXN7_err_8_refAllele_949_1461_8:0:0_9:0:0_6b"
+      align: |
+        gccgcgccgggcggctgcggcgtcgggcgtagcagcggccgcggccgcccggcagcagcagcatcctcagcagcagcagcatccgccgcctccgcagccc
+        ||||||||| ||||| |||||| |||||| |||||||||||||||||||||                               ||||||||||||||||||
+        GCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCC
+    -
+      name: "ATXN7_err_8_refAllele_955_1450_6:0:0_6:0:0_30"
+      align: |
+        ccgcgcggcgggggcgggggtcggagcagcggccgcggccgcccggcaggcgcagcagcagcagcagcagcagcagccgccgcctccgcagcccgagcgg
+        ||||||||||| ||||| || ||||||||||||||||||||||||                              ||||||||||||||||||| |||||
+        CCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGG
+    -
+      name: "ATXN7_err_8_refAllele_982_1477_6:0:0_7:0:0_113"
+      align: |
+        aggggccgcggccgcccggcagcaggagcagcagcagcagcagcagcaggcgccgcctccgcagcccgagcggcagcagcacccgccacggcggccacgg
+        || |||||||||||||||                              | ||||||||||||||||| ||||||||||||||||||||| || |||||||
+        AGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGG
+    -
+      name: "ATXN7_err_8_refAllele_993_1503_11:0:0_12:0:0_1bb"
+      align: |
+        ccggccggcagcagcagcagcagcctcatcagcagcagcggcggcctccgccgcccccgcggcagccgcacccgccaccgccgccacggcgcagactgcc
+        ||| |||                              || || |||||||| ||||| |||||||| |||||||||||||||||||||||||| || |||
+        CCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCC
+    -
+      name: "ATXN7_err_8_refAllele_977_1542_5:0:0_6:0:0_1aa"
+      align: |
+        ggagcagcgggcgcggccgcccggcagcagcagcagcagcaggagcagcagcagccgcggcctccgcagccccagcggccgcagcccccgccaccgccgc
+        |||||||||| ||||||||||||                              ||||| |||||||||||||||||||| ||||| ||||||||||||||
+        GGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGC
+    -
+      name: "ATXN7_err_8_refAllele_571_1030_8:0:0_9:0:0_63"
+      align: |
+        ggatgacctcagcggggagccgccccgcgccgcggcgccggcgggcgcagcagcggacccggccgcccggcagcagcagcagcagcagcagcagcagaag
+        ||||||| |||| |||||||||| |||||| |||||| ||||||||| |||||||| | ||||||||||                              |
+        GGATGACGTCAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRG
+    -
+      name: "ATXN7_err_8_refAllele_554_1039_8:0:0_13:0:0_134"
+      align: |
+        cagggggcagacgagccgcgcggcggaggcggaggccggagcagccccagcggccgccccgcagcagcagcagcagcagcagcagaagcagacgcagcct
+        ||||||| || || |||||||||||| ||||| || |||||||||  | ||||||||||                               | ||| ||||
+        CAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCT
+    -
+      name: "ATXN7_err_8_refAllele_529_1035_4:0:0_10:0:0_cb"
+      align: |
+        aagtcagcgcggagccgcgccgcgaggcggcggcggcgggccgtgcagaggccgcggccgcccggcagaagcagctgcagcagcagcagcagcagacgcc
+        | ||||| | |||||||||||||| |||||||||||||||| | |||| |||||||||||||||                              | ||||
+        ACGTCAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCC
+    -
+      name: "ATXN7_err_8_refAllele_949_1499_11:0:0_7:0:0_10e"
+      align: |
+        gcctcgccgcgcggcggctgcggcgggcggaggagcgtccgcggccgcgcggcagcagcatcagcagccgcagcatcaggcgccgccggctccgcagccc
+        ||| |||||||||||||| ||||||||||||| |||| |||||||||| ||                              ||||||| |||||||||||
+        GCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCC
+    -
+      name: "ATXN7_err_8_refAllele_556_1047_7:0:0_6:0:0_9d"
+      align: |
+        agccgccccgcgcggcgccggcggcgggcggagcagcggccgcggccgaccggcagcagcagcaccagcagcagaagcagaagccgccgcctccgcagcc
+        |||||| |||||||||| |||||||||||||||||||||||||||||| |||                              ||||||||||||||||||
+        AGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCC
+    -
+      name: "ATXN7_err_8_refAllele_511_1039_12:0:0_10:0:0_cf"
+      align: |
+        caggggggagcccccccgcgcggcggcggcggccggcggagcagcggacgcggccgaccggcagcagctgcagcagcagctcctgcagaagccgccgcct
+        |||||||||||| | |||||||||||||||||| ||||||||||||| |||||||| |||                              ||||||||||
+        CAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCT
+    -
+      name: "ATXN7_err_8_refAllele_933_1497_8:0:0_7:0:0_c4"
+      align: |
+        atgaggtcaggggggagccgcgccgcgcggctgcgggggcgggcggcgcagcggccgcggcggcgcggcaggagcagccgcagcagcagcagcagcagcc
+        |||| |||||||||||||||||||||||||| |||| ||||||||| |||||||||||||| || ||                              |||
+        ATGACGTCAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCC
+    -
+      name: "ATXN7_err_8_refAllele_485_1030_8:0:0_8:0:0_a3"
+      align: |
+        ggatgaagtcagcggggagccgcgccgcgcggcggcggcggcgcgcggagcagcgcccccggccgcccggcagcagaagaagcagctgcagcagcagcag
+        |||||| ||||| |||||||||||||||||||||||||||||| ||||||||||| || ||||||||||                              |
+        GGATGACGTCAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRG
+    -
+      name: "ATXN7_err_8_refAllele_998_1451_12:0:0_4:0:0_145"
+      align: |
+        cggcagcagcagcatcaggagcatgagcagcagccgccgcctcggcagcccgatcggcagcagcaccctccagcgccgccacggggcacaggggcggagg
+        ||                              ||||||||||| ||||||| | |||||||||||||| ||| ||||||||||| ||||| || ||||||
+        CGRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGG
+  SPANNING_9:
+    -
+      name: "ATXN7_err_8_refAllele_526_1087_11:0:0_9:0:0_9f"
+      align: |
+        cgcggccgcccggctgcagcagcagcaccagcagcagcagcagacgacgcctccgcagccccagaggcagcagcacccgccacaccccccaaggcgcaca
+         || || |||   |                            | || ||||||||||||||||| ||||||||||||||||||  || ||| ||||||||
+        GGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACA
+    -
+      name: "ATXN7_err_8_refAllele_517_1029_11:0:0_9:0:0_143"
+      align: |
+        cggatgacgtcaggggggagccgcgccgcccggcggcggaggcgcgcggagcagcggccgcgcacgcccggcagaagcagcagcagctgcacctgcagca
+        ||||||||||||||||||||||||||||| ||||||||| |||| |||||||||||||||||  ||||||                           || 
+        CGGATGACGTCAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRGCC
+    -
+      name: "ATXN7_err_8_refAllele_930_1455_11:0:0_16:0:0_f9"
+      align: |
+        gggatgacgtcaggggggatccgcgcctcgcggcggcggcggcgggcggaggagcggccgggtgggccctgcagcaggcgcagcagcagcagcagcagca
+         |||||||||||||||||| ||||||| ||||||||||||||||||||||| |||||||| |   ||||                            || 
+        CGGATGACGTCAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRRRRRGCC
+  FLANKING:
+    -
+      name: "ATXN7_err_8_altAllele_581_1095_7:0:0_11:0:0_d2"
+      align: |
+        cccgggaagcagcagcagcagaagcagcagccgacgcctacgatgccccagcggcagcagcacccgccacagacgccaagccgcacacgcccggaggacg
+                                     |||| ||||| ||  |||||||||||||||||||||||||| | ||||| | |||||||| ||||||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGGACG
+    -
+      name: "ATXN7_err_8_altAllele_561_1082_6:0:0_8:0:0_57"
+      align: |
+        gcggccgccgccgcccgggcagcaccaccagcagaagcagcagccgccgcctccccagcccctgcggcagaagcacccgccacccccgccacggcgcaca
+                                                  |||||||||||| ||||||| ||||||| ||||||||||||| |||||||||||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACA
+    -
+      name: "ATXN7_err_8_altAllele_558_1054_6:0:0_4:0:0_181"
+      align: |
+        ccgcgcggcggcggcggcgggaggagcagcggcagcggccgcccgcgcagcagcagcaccagcagcagcagccgccgcctccgcagccccagcggcagca
+                                                                              ||||||||||||||||||||||||||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCA
+    -
+      name: "ATXN7_err_8_refAllele_651_1103_8:0:0_7:0:0_12f"
+      align: |
+        cagcagcagcagcagcagcagcagcagccgacgactccgcagacccagcggaagcaccacacgccaccgccgccacggcgcactcggccggaggacggcg
+                                  |||| || |||||||| |||||||| |||| ||| |||||||||||||||||||||| ||||||||||||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGGACGGCG
+    -
+      name: "ATXN7_err_8_refAllele_524_1108_11:0:0_2:0:0_189"
+      align: |
+        gcagcagcagcagcagcagcagcccccgcctccgcagccccagcggcagcagcaaccgccaccgccgccacggcgcacacggccggaggacggcgggccc
+                             ||| ||||||||||||||||||||||||||||| |||||||||||||||||||||||||||||||||||||||||||||
+        RRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGGACGGCGGGCCC
+    -
+      name: "ATXN7_err_8_altAllele_514_1089_8:0:0_3:0:0_a8"
+      align: |
+        cggccgcccgggcagcagcagcagcagcagcagcacacgccgcctccgcagccccagcggcagcagcacccgccaccgccgccacggcgcacacggacgg
+                                             ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| |||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGG
+    -
+      name: "ATXN7_err_8_refAllele_483_1015_11:0:0_3:0:0_13a"
+      align: |
+        gtcggagcgggccgcggatgacgtcaggggggagccgcgacgcgccgcggcggcggcgggcggagcagcggccgcggccgcccggcagctgcagcagcag
+        ||||||||||||||||||||||||||||||||||||||| ||||| ||||||||||||||||||||||||||||||||||||||                
+        GTCGGAGCGGGCCGCGGATGACGTCAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRR
+    -
+      name: "ATXN7_err_8_refAllele_493_1012_4:0:0_7:0:0_70"
+      align: |
+        aatctcgcagcgggccgaggttgtcgtcaggggggagccgcgccgcgcggcggcggaggcgggcggagcagcggacgcggccgcccggcagcagcagcag
+        ||| ||| ||||||||| || || |||||||||||||||||||||||||||||||| ||||||||||||||||| ||||||||||||             
+        AATGTCGGAGCGGGCCGCGGATGACGTCAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRR
+    -
+      name: "ATXN7_err_8_refAllele_642_1115_10:0:0_10:0:0_ea"
+      align: |
+        ctgcagcagcagcagcccccgcctccgcagccccagcggcaccaccaccagccaccgccgccaaggcgcaaaagcccggaggacggcgggccccgcgccg
+                      ||| ||||||||||||||||||||||| || |||| ||||||||||||| |||||| | | |||||||||||||||||| ||||||
+        RRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGGACGGCGGGCCCGGCGCCG
+    -
+      name: "ATXN7_err_8_refAllele_507_1012_7:0:0_7:0:0_1cc"
+      align: |
+        aatctcggagcgggccgcggatgacgtaaggggggagccgcgccgcgcgcccgcggccgcgggcggagcaccggccgcggccgccaggcagcagcagcag
+        ||| ||||||||||||||||||||||| ||||||||||||||||||||| | ||||| |||||||||||| |||||||||||||| |             
+        AATGTCGGAGCGGGCCGCGGATGACGTCAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRR
+    -
+      name: "ATXN7_err_8_refAllele_924_1369_9:0:0_13:0:0_101"
+      align: |
+        gtgcctcggattacgtgagtggggagccgcgccgcgcggcggcgggggcgtgcggagcagcggccgcggccggccggcagcagcagcagcatcagcagca
+        | ||| ||||| |||| || ||||||||||||||||||||||||| |||| ||||||||||||||||||||| |||                        
+        GGGCCGCGGATGACGTCAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRRRRRRRRRRR
+    -
+      name: "ATXN7_err_8_altAllele_575_1071_13:0:0_4:0:0_37"
+      align: |
+        cgggcggagcagcggccgcggccgccagggcagcagcagcaccagcagcagcagccgccgcctccgcagccccagcggaagcaccacccgccaccgccgc
+                                                             ||||||||||||||||||||||||| |||| ||||||||||||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGC
+    -
+      name: "ATXN7_err_8_altAllele_984_1552_10:0:0_5:0:0_17a"
+      align: |
+        cggccgcgtccgcccgggcagcagcagcagcagcagcagcagccgccgcgtcctgatgcccagcgtcagcaggacccgccacggccgccacggggcacac
+                                                 |||||||| |||  |  ||||||| |||||| ||||||||| |||||||||| ||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACAC
+    -
+      name: "ATXN7_err_8_refAllele_905_1373_4:0:0_7:0:0_118"
+      align: |
+        gcggaaagaatgtcggagcgggccgcggatgacgtcagtggggagccgcgcctcgcggcggcggcggcgggcggatcagcgggcgcggccgcccggcagc
+        |||||||||||||||||||||||||||||||||||||| ||||||||||||| |||||||||||||||||||||| |||||| ||||||||||||     
+        GCGGAAAGAATGTCGGAGCGGGCCGCGGATGACGTCAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRR
+    -
+      name: "ATXN7_err_8_altAllele_641_1085_11:0:0_7:0:0_ff"
+      align: |
+        gccgcggccgcacgggcagcagcagcagcagctgcagcagcagccgcctccgctgccccagcggcagcagcaacagccaccgcccccacggcgcacacgg
+                                               || ||||||||||| |||||||||||||||||| | ||||||||| |||||||||||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGG
+    -
+      name: "ATXN7_err_8_refAllele_532_1103_8:0:0_8:0:0_e8"
+      align: |
+        aagcagcagcagcagctgcagcagcagccgccgcctccgcagccccagcggcagcagcacccgactacgcagccacggcgcacaaggcaggaggacggcg
+                                  ||||||||||||||||||||||||||||||||||||| |  ||| ||||||||||||| ||| |||||||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGGACGGCG
+    -
+      name: "ATXN7_err_8_refAllele_559_1103_6:0:0_8:0:0_eb"
+      align: |
+        cagcagcagcagcagcagaagcagcagcccccccctccgcagcccaagcggaagctgcacccgccaccgccgacacggcgcacacggccggaggaaggcg
+                                  ||| || |||||||||||| ||||| ||| |||||||||||||||| |||||||||||||||||||||| ||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGGACGGCG
+    -
+      name: "ATXN7_err_8_refAllele_915_1427_7:0:0_4:0:0_1e1"
+      align: |
+        tgtcggagcgggccgcggatgacgtcatgggggagccgcgccgcgcgggtgcggcggcgtgcggagcagcggccgcggccgcccggcagcagcctccgca
+        ||||||||||||||||||||||||||| ||||||||||||||||||||  ||||||||| |||||||||||||||||||||||||               
+        TGTCGGAGCGGGCCGCGGATGACGTCAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRRRRRRRRRRR
+    -
+      name: "ATXN7_err_8_altAllele_983_1535_8:0:0_11:0:0_11c"
+      align: |
+        tcggccgcgtccgcccgggcagcagcagcaggagccgcagcagccgcctcctccgcagccgcatcggcatcagcacccgccaccgccgccacggcgcaca
+                                                  |||||| ||||||||||| || ||||| ||||||||||||||||||||||||||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACA
+    -
+      name: "ATXN7_err_8_altAllele_999_1616_6:0:0_9:0:0_114"
+      align: |
+        gggcagcagcagcagccgcagcagcatccgccgcgtccggagccccagcggcagcagcacccgccaccgcctccacggcgcacacgggcggaggacggcg
+                                   ||||||| |||| ||||||||||||||||||||||||||||||| ||||||||||||||| ||||||||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGGACGGCG
+    -
+      name: "ATXN7_err_8_refAllele_1014_1487_8:0:0_6:0:0_156"
+      align: |
+        agcagcagcaggagcagccgccgcctccgcagccccagctgcagcagcacccgcgaccgccgccactgcgcacagggccgtaggactgctggcccggcgc
+                        ||||||||||||||||||||||| |||||||||||||| ||||||||||| ||||||| ||||| ||||| || ||||||||||
+        RRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGGACGGCGGGCCCGGCGC
+    -
+      name: "ATXN7_err_8_altAllele_987_1500_8:0:0_8:0:0_b6"
+      align: |
+        ccggggccgcccggtcagcatcagcagcagcagcagcagccgccgcctccgcagccccagcgtcaggagcacccgccagggccgccacgtcgcacacggc
+                                              |||||||||||||||||||||||| ||| |||||||||||  ||||||||| ||||||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGC
+    -
+      name: "ATXN7_err_8_altAllele_604_1098_6:0:0_7:0:0_e5"
+      align: |
+        gcgcagcagcagcaccagcagcagcagccgccgcatccgcagccccagcgccagcagcacccgccaccgccgccaaggcgcacacggccggagcacgccg
+                                  |||||||| ||||||||||||||| |||||||||||||||||||||||| ||||||||||||||||| ||| ||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGGACGGCG
+    -
+      name: "ATXN7_err_8_altAllele_970_1548_8:0:0_5:0:0_196"
+      align: |
+        ggcgggcggagcagcggcggcgtccgccggggccgcagcagcagcatcagcagcagccgccgccaccgcaggcccagcggcatcagcacccgccaccgcc
+                                                               ||||||||| |||||| |||||||||| |||||||||||||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCC
+    -
+      name: "ATXN7_err_8_refAllele_1001_1490_7:0:0_8:0:0_96"
+      align: |
+        cagcagcagcaggagcagcaggagcagcagccgccgcctccgcagccccagcggcagcatcacccgccagcgccgccactgcgcacagggccgtaggacg
+                                     |||||||||||||||||||||||||||||| ||||||||| ||||||||| ||||||| ||||| ||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGGACG
+    -
+      name: "ATXN7_err_8_refAllele_1001_1541_12:0:0_7:0:0_19e"
+      align: |
+        cagcagcctccgcagcagcatcagcagcatgcgccgcctgcggagccccagcggcagccgcacgcgccaccgccgccacggcgcacacggggggaggacg
+                                       |||||||| || ||||||||||||||| |||| ||||||||||||||||||||||||||  ||||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGGACG
+    -
+      name: "ATXN7_err_8_altAllele_975_1401_9:0:0_7:0:0_81"
+      align: |
+        gctgagcagcggcggcgtccgccctggcagcatcagcagcagcagcagcagccgccgcctccgccgccccagctgcaggagcacccgccaccgccgccag
+                                                          |||||||||||||| |||||||| |||| |||||||||||||||||||| 
+        RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCAC
+    -
+      name: "ATXN7_err_8_refAllele_1010_1540_9:0:0_10:0:0_6d"
+      align: |
+        cagcagccgcagcagcagcagccgccgcctccgcagccccagcttcatcagcacgcgccaccgccgccacggctcagacggcctgaggacggcgggccct
+                            |||||||||||||||||||||||  || |||||| |||||||||||||||||| || |||||| ||||||||||||||| 
+        RRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGGACGGCGGGCCCG
+    -
+      name: "ATXN7_err_8_altAllele_974_1416_10:0:0_4:0:0_94"
+      align: |
+        gggggagcatcggccgcggccgcccgggcagcagcagcagcagcagccgcagcctgcgccaccggagcgccaggggcagcagcacccgccacggccgcca
+                                                           |||  |||| ||| ||| |||| |||||||||||||||||| |||||||
+        RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCA
+    -
+      name: "ATXN7_err_8_altAllele_1000_1467_3:0:0_9:0:0_50"
+      align: |
+        ggcagcagcagcagcagcagcagcagcgtccgcctccgcagccccagcggcagcagcacccgccaccgccgccacggcgcacacggccggaggacggcgt
+                                 ||  |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| 
+        RRRRRRRRRRRRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGGACGGCGG
+    -
+      name: "ATXN7_err_8_refAllele_906_1419_6:0:0_6:0:0_de"
+      align: |
+        cgtaaagaatgtctgagcgggccgcggatgacgtcaggggggagccgcgccgcgcggcggcggctgcttgcggaggagcggccgcggccgcccggcagca
+        || |||||||||| |||||||||||||||||||||||||||||||||||||||||||||||||| ||  |||||| ||||||||||||||||||      
+        CGGAAAGAATGTCGGAGCGGGCCGCGGATGACGTCAGGGGGGAGCCGCGCCGCGCGGCGGCGGCGGCGGGCGGAGCAGCGGCCGCGGCCGCCCGRRRRRR
+    -
+      name: "ATXN7_err_8_altAllele_605_1109_11:0:0_8:0:0_6f"
+      align: |
+        ccagctgcagcagcacccgccccctccgcagccccagcgccagcagcaccacccaccgccgccacggcgcacacggcaggaggacggcgggcccggcgcc
+                        ||||| ||||||||||||||||| ||||||||||  ||||||||||||||||||||||||| ||||||||||||||||||||||
+        RRRRRRRRRRRRRRRGCCGCCGCCTCCGCAGCCCCAGCGGCAGCAGCACCCGCCACCGCCGCCACGGCGCACACGGCCGGAGGACGGCGGGCCCGGCGCC
+

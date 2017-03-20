@@ -1,6 +1,6 @@
 {
 	"RepeatId": "ATXN7",
 	"RepeatUnit": "GCA",
-	"CommonUnit": true,
+	"CommonUnit": false,
 	"TargetRegion": "3:63898361-63898390"
 }

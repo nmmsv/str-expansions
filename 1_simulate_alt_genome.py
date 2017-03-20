@@ -1,4 +1,4 @@
-import csv
+0import csv
 import tempfile
 import subprocess
 
@@ -51,9 +51,10 @@ print '# Repository Directory: ', repoDir
 print '# List of nCopies for Generated Genomes: ', nCopyList
 
 print '# Creating new directories..'
-mkdir_p(repoDir + expName)
-mkdir_p(repoDir + expName + '/simulated_genome')
-mkdir_p(repoDir + expName + '/temp')
+expDir = repoDir + 'experiments/'
+mkdir_p(expDir + expName)
+mkdir_p(expDir + expName + '/simulated_genome')
+mkdir_p(expDir + expName + '/temp')
 # STR_locus contains the information for the STR locus
 # Format: Chr	Start	End	MotifLength	nCopies
 with open (repoDir + locus, 'r') as f:
@@ -68,21 +69,21 @@ beginFlank = startLoc - flankLength
 endFlank = endLoc + flankLength
 
 print '# Creating temp bed files..'
-refBed = open(repoDir + expName + '/temp/tempRefBed.bed', 'w')
+refBed = open(expDir + expName + '/temp/tempRefBed.bed', 'w')
 refBed.write(chrom + '\t' + str(beginFlank) + '\t' + str(endFlank) + '\n')
 refBed.close()
 
-prefixBed = open(repoDir + expName + '/temp/tempPrefixBed.bed', 'w')
+prefixBed = open(expDir + expName + '/temp/tempPrefixBed.bed', 'w')
 prefixBed.write(chrom + '\t' + str(beginFlank) + '\t' + str(startLoc) + '\n')
 prefixBed.close()
 
-suffixBed = open(repoDir + expName + '/temp/tempSuffixBed.bed', 'w')
+suffixBed = open(expDir + expName + '/temp/tempSuffixBed.bed', 'w')
 suffixBed.write(chrom + '\t' + str(endLoc) + '\t' + str(endFlank) + '\n')
 suffixBed.close()
 
-refFastaDir = repoDir + expName + '/temp/' + expName + '_ref.fa'
-prefixFastaDir = repoDir + expName + '/temp/' + expName + '_prefix.fa'
-suffixFastaDir = repoDir + expName + '/temp/' + expName + '_suffix.fa'
+refFastaDir = expDir + expName + '/temp/' + expName + '_ref.fa'
+prefixFastaDir = expDir + expName + '/temp/' + expName + '_prefix.fa'
+suffixFastaDir = expDir + expName + '/temp/' + expName + '_suffix.fa'
 # Create blank fasta file if it doesn't exist:
 open(refFastaDir, 'a').close()
 open(prefixFastaDir, 'a').close()
@@ -90,7 +91,7 @@ open(suffixFastaDir, 'a').close()
 # Extracting reference haplotype
 subprocess.call(['bedtools', 'getfasta', \
 	'-fi', refGenomeDir, \
-	'-bed', repoDir + expName + '/temp/tempRefBed.bed', \
+	'-bed', expDir + expName + '/temp/tempRefBed.bed', \
 	'-fo', refFastaDir])
 with open (refFastaDir, 'r') as refFasta:
 	refFasta.readline().strip()
@@ -100,7 +101,7 @@ print '# Calling bedtools getfasta..'
 # Generating prefix and suffix for altered (STR nCopy changed) haplotype
 subprocess.call(['bedtools', 'getfasta', \
 	'-fi', refGenomeDir, \
-	'-bed', repoDir + expName + '/temp/tempPrefixBed.bed', \
+	'-bed', expDir + expName + '/temp/tempPrefixBed.bed', \
 	'-fo', prefixFastaDir])
 with open (prefixFastaDir, 'r') as preFile:
 	preFile.readline().strip()
@@ -108,13 +109,13 @@ with open (prefixFastaDir, 'r') as preFile:
 
 subprocess.call(['bedtools', 'getfasta', \
 	'-fi', refGenomeDir, \
-	'-bed', repoDir + expName + '/temp/tempSuffixBed.bed', \
+	'-bed', expDir + expName + '/temp/tempSuffixBed.bed', \
 	'-fo', suffixFastaDir])
 with open (suffixFastaDir, 'r') as sufFile:
 	sufFile.readline().strip()
 	suffixHap = sufFile.readline().strip()
 
-simGenDir = repoDir + expName + '/simulated_genome/'
+simGenDir = expDir + expName + '/simulated_genome/'
 
 for nc in nCopyList:	
 	with open(simGenDir + expName +'_' + str(nc) + '.fa', 'w') as f:

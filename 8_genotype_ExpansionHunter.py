@@ -36,5 +36,5 @@ for nc in nCopyList:
         --json ' + outDir + expName + '_' + nCopy + '.json \
         --log ' + outDir + expName + '_' + nCopy + '.log \
         --min-score 0.1 --min-baseq 1 --min-anchor-mapq 1 \
-        --read-depth 50')
+        --read-depth 1')
 

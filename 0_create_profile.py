@@ -3,6 +3,9 @@ import errno
 import os
 import sys
 import pickle
+import argeparse
+
+
 # StackOverflow
 def mkdir_p(path):
     try:
@@ -14,6 +17,9 @@ def mkdir_p(path):
         else:
             raise
 
+parser = argeparse.ArgumentParser('Creating profile for ')
+
+
 if len(sys.argv) < 2:
 	print '### Usage python 0_create_profile.py dir expName locus motif flankLength refGenomeDir nCopyCount nCopy1 nCopy2 ...'
 	sys.exit()
@@ -22,8 +28,11 @@ else:
 	expName = sys.argv[2]
 	expCaseDir = repoDir + 'experiments/' + expName
 	mkdir_p(repoDir + 'experiments/' + expCaseDir)
-
-	motif = sys.argv[3]
+	expProfile = {'motif': sys.argv[3],\
+				'locus': 'loci/' + sys.argv[4] + '.bed',\
+				'flankLength': int(sys.argv[5]),\
+				'refGenomeDir': sys.argv[6]}
+	motif = 
 	locus = 'loci/' + sys.argv[4] + '.bed'
 	flankLength = int(sys.argv[5])
 	refGenomeDir = sys.argv[6]

@@ -1,7 +1,7 @@
-0import csv
+import csv
 import tempfile
 import subprocess
-
+import pickle
 import errno    
 import os
 import sys
@@ -16,31 +16,46 @@ def mkdir_p(path):
             pass
         else:
             raise
-print sys.argv
+# print sys.argv
 
 
-if len(sys.argv) < 2:
-	print '### Usage python 1_simulate_alt_genome.py expName locus motif flankLength refGenomeDir repoDir nCopyCount nCopy1 nCopy2 ...'
-elif sys.argv[1] == "default":
-	expName = 'HTT2'
-	motif = 'CAG'
-	locus = 'loci/HTT.bed'
-	flankLength = 5000
-	nCopyList = [21, 36]
-	refGenomeDir = '/storage/resources/dbase/human/hs37d5/hs37d5.fa'
-	repoDir = '/storage/nmmsv/str-expansions/'
-else:
-	expName = sys.argv[1]
-	motif = sys.argv[2]
-	locus = 'loci/' + sys.argv[3] + '.bed'
-	flankLength = int(sys.argv[4])
-	refGenomeDir = sys.argv[5]
-	repoDir = sys.argv[6]
-	nCopyCount = int(sys.argv[7])
-	nCopyList = []
-	for i in range(8, 8 + nCopyCount):
-		nCopyList.append(int(sys.argv[i]))
+# if len(sys.argv) < 2:
+# 	print '### Usage python 1_simulate_alt_genome.py expName locus motif flankLength refGenomeDir repoDir nCopyCount nCopy1 nCopy2 ...'
+# elif sys.argv[1] == "default":
+# 	expName = 'HTT2'
+# 	motif = 'CAG'
+# 	locus = 'loci/HTT.bed'
+# 	flankLength = 5000
+# 	nCopyList = [21, 36]
+# 	refGenomeDir = '/storage/resources/dbase/human/hs37d5/hs37d5.fa'
+# 	repoDir = '/storage/nmmsv/str-expansions/'
+# else:
+# 	expName = sys.argv[1]
+# 	motif = sys.argv[2]
+# 	locus = 'loci/' + sys.argv[3] + '.bed'
+# 	flankLength = int(sys.argv[4])
+# 	refGenomeDir = sys.argv[5]
+# 	repoDir = sys.argv[6]
+# 	nCopyCount = int(sys.argv[7])
+# 	nCopyList = []
+# 	for i in range(8, 8 + nCopyCount):
+# 		nCopyList.append(int(sys.argv[i]))
 
+expName = sys.argv[1]
+repoDir = sys.argv[2]
+
+expCaseDir = repoDir + 'experiments/' + expName
+
+try:
+	with open(expCaseDir + '/profile.txt', 'r') as f:
+		arg_dict = pickle.load(f)
+except:
+	raise
+locus = 'loci/' + arg_dict['locus'] + '.bed'
+motif = arg_dict['motif']
+flankLength = arg_dict['flank_len']
+refGenomeDir = arg_dict['ref_gen_dir']
+nCopyList = arg_dict['num_copy']
 
 print '## Simulating Alterred Genome ##'
 print '# Experiment Name: ', expName

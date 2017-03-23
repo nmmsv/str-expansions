@@ -99,7 +99,9 @@ for nc in nCopyList:
 
 	param0 = [model.means_[0 , 0], np.sqrt(model.covariances_[0, 0, 0]), model.weights_[0]]
 	param1 = [model.means_[1 , 0], np.sqrt(model.covariances_[1, 0, 0]), model.weights_[1]]
-
+	print '######'
+	print 'nCopy = ', nCopy
+	print 'peak1 = ', param0[0], '\tDelta = ', (dist - param0[0]) / len(motif)
 	print param0
 	print param1
 	print model.converged_

@@ -1,7 +1,0 @@
-Simulated read using 'wgsim' for experiment FMR1_3, nCopy = 40
-Parameters:
--d	500		Outer distance between two pairs
--s	50		Standard deviation
--N	100000	Number of reads
--1	100		Length of first Read
--2	100		Length of second Read

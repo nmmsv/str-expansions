@@ -8,7 +8,20 @@ import os
 import sys
 import subprocess
 
+import argparse
 
+parser = argparse.ArgumentParser('Filter sam/bam files to only keep spanning reads.')
+parser.add_argument('--align', type = str, default = 'False')
+
+args = parser.parse_args()
+
+align_flag = args.align
+if align_flag == 'False':
+	print ""
+	print "####### NO ALIGNMENT!!!!"
+	print ""
+	print "########################"
+	print "########################"
 # Parameters ######
 
 repo_dir = '/storage/nmmsv/str-expansions/'
@@ -16,14 +29,15 @@ base_dir = '/storage/nmmsv/expansion-experiments/'
 ref_genome = '/storage/resources/dbase/human/hs37d5/hs37d5.fa'
 locus = repo_dir + '/loci/ATXN7.bed'
 motif = 'GCA'
+ref_allele = 10
 
 
 exp_name = 'ATXN7_12_core'
-nCopyList = [3, 10, 18]
+nCopyList = [3,10,18,40]
 flank_len = 1000
 base_error = 0.0
-dist_mean  = 1000
-dist_sdev  = 100
+dist_mean  = 500
+dist_sdev  = 50
 coverage = 100
 read_len = 100
 mutat_rate = 0.0
@@ -50,12 +64,16 @@ exp_dir = base_dir + exp_name + '/'
 sim_gen_dir = exp_dir + '/simulated_genome/'
 sim_read_dir = exp_dir + '/simulated_read/'
 algn_read_dir = exp_dir + '/aligned_read/'
+estm_dir = exp_dir + '/estimation/'
+plot_dir = exp_dir + '/plots/'
 temp_dir = exp_dir + '/temp/'
 mkdir_p(base_dir)
 mkdir_p(exp_dir)
 mkdir_p(sim_gen_dir)
 mkdir_p(sim_read_dir)
 mkdir_p(algn_read_dir)
+mkdir_p(estm_dir)
+mkdir_p(plot_dir)
 mkdir_p(temp_dir)
 ############################
 
@@ -98,22 +116,50 @@ for nc in nCopyList:
 #############################
 
 ### STEP 3: Alignment #######
-
-for nc in nCopyList:
-	read_grp_header = 	'\'@RG\\tID:' + exp_name + \
-					'\\tSM:' + str(nc) + \
-					'\\tLB:' + str(coverage)+ \
-					'\\tPL:' + str(base_error) + '\''
-	in_pref = sim_read_dir + 'nc_' + str(nc)
-	out_pref = algn_read_dir + 'nc_' + str(nc)
-	subprocess.call(['python', 		repo_dir + '3.2_align_read_core.py', \
-					'--ref-genome', '/storage/resources/dbase/human/hs37d5/hs37d5.fa', \
-					'--exp-name', 	exp_name, \
-					'--out-pref', 	out_pref, \
-					'--in-pref', 	in_pref, \
-					'--read-grp',	read_grp_header, \
-					'--num-threads',str(5)])
+if align_flag == 'True':
+	for nc in nCopyList:
+		read_grp_header = 	'\'@RG\\tID:' + exp_name + \
+							'\\tSM:' + str(nc) + \
+							'\\tLB:' + str(coverage)+ \
+							'\\tPL:' + str(base_error) + '\''
+		in_pref = sim_read_dir + 'nc_' + str(nc)
+		out_pref = algn_read_dir + 'nc_' + str(nc)
+		subprocess.call(['python', 		repo_dir + '3.2_align_read_core.py', \
+						'--ref-genome', '/storage/resources/dbase/human/hs37d5/hs37d5.fa', \
+						'--out-pref', 	out_pref, \
+						'--in-pref', 	in_pref, \
+						'--read-grp',	read_grp_header, \
+						'--num-threads',str(5)])
 
 ##############################
 
 
+### STEP 5: Filter: Filter out all non-spanning read pairs #######
+for nc in nCopyList:
+	in_pref = algn_read_dir + 'nc_' + str(nc)
+	out_pref = algn_read_dir + 'nc_' + str(nc) + '_flt'
+	subprocess.call(['python', 		repo_dir + '5.2_filter_spanning_only_core.py', \
+					'--ref-genome', '/storage/resources/dbase/human/hs37d5/hs37d5.fa', \
+					'--out-pref', 	out_pref, \
+					'--in-pref', 	in_pref, \
+					'--locus-bed',	locus, \
+					'--read-len',	str(read_len)])
+
+##################################################################
+
+### STEP 9: Estimate: Estimate STR length, compute error, and plot #####
+for nc in nCopyList:
+	in_path = algn_read_dir + 'nc_' + str(nc) + '_flt.bam'
+	plot_path = plot_dir + 'nc_' + str(nc) + '.pdf'
+	estm_path = estm_dir + 'nc_' + str(nc) + '.txt'
+	subprocess.call(['python', 		repo_dir + '9_estimate_str_and_plot_core.py', \
+					'--in-path', 	in_path, \
+					'--estm-path',	estm_path,\
+					'--plot-path',	plot_path,\
+					'--ref-allele',	str(ref_allele),\
+					'--alt-allele',	str(nc),\
+					'--motif', 		motif,\
+					'--dist-mean',	str(dist_mean),\
+					'--temp-dir',	temp_dir])
+
+#########################################################################

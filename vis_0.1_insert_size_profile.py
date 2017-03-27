@@ -152,7 +152,7 @@ for nc in nCopyList:
 		delta1 = np.abs(dist - param1[0]) / len(motif)
 
 		altAllele = np.abs(param1[0] - param0[0]) / len(motif) + refAllele
-		err = (altAllele - nc) ** 2
+		err = ((altAllele - nc) / nc) ** 2
 		print 'peak0=', '{0:.5f}'.format(param0[0]), '\tDelta=', '{0:.4f}'.format(delta0), '*', motif
 		print 'peak1=', '{0:.5f}'.format(param1[0]), '\tDelta=', '{0:.4f}'.format(delta1), '*', motif, '\tSqDiff=', '{0:.4f}'.format(err)
 		print param0

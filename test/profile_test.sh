@@ -1,21 +1,21 @@
-exp=ATXN7_12_heatMap_d1000
+exp=ATXN7_12_old_heatMap_d1000
 
 
 python 0_create_profile.py 	--exp-name $exp \
 							--locus ATXN7 \
 							--motif GCA \
 							--ref-allele-count 10 \
-							--num-copy 3 7 10 12 16 22 30 40 60 85\
-							--num-reads 50 150 350 500 700 1000 2500 4000 8000 11000 \
+							--num-copy 3 7 10 16 20 30 40 55 70 85\
+							--num-reads 150 360 600 900 1350 1800 2400 3000 \
 							--ref-gen-dir /storage/resources/dbase/human/hs37d5/hs37d5.fa \
 							--repo-dir /storage/nmmsv/str-expansions/ \
-							--flank-len 4000 \
+							--flank-len 3000 \
 							--read-len 100 \
 							--read-ins-mean 1000 \
 							--read-ins-stddev 50 \
 							--base-error 0 \
 							--bam-filter True \
-							--heat-map-limit 50
+							--heat-map-limit 1
 
 
 

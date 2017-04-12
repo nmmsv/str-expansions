@@ -154,6 +154,7 @@ if align_flag == 'True':
 
 ### STEP 9: Estimate: Estimate STR length, compute error, and plot #####
 if align_flag == 'True':
+# if 1:
 	for coverage in coverage_list:
 		for nc in nCopyList:
 			in_path = algn_read_dir + 'cvrg' + str(coverage) + '_nc' + str(nc) + '_flt.bam'

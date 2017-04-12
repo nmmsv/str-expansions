@@ -11,7 +11,7 @@ import subprocess
 import argparse
 
 parser = argparse.ArgumentParser('Filter sam/bam files to only keep spanning reads.')
-parser.add_argument('--align', type = str, default = 'False')
+parser.add_argument('--align', type = str, required = True)
 
 args = parser.parse_args()
 
@@ -32,18 +32,23 @@ motif = 'GCA'
 ref_allele = 10
 
 
-exp_name = 'ATXN7_12_core'
-nCopyList = [3,10,18,40]
-flank_len = 1000
+exp_name = 'ATXN7_17_class2_cov5_dist300'
+
+copy_list = [10,20,40,80,120]
+flank_len = 2000
 base_error = 0.0
-dist_mean  = 500
+dist_mean  = 300
 dist_sdev  = 50
-coverage = 100
+coverage = 5
 read_len = 100
 mutat_rate = 0.0
 indel_frac = 0.0
 indel_xtnd = 0.0
 
+
+num_threads = 5
+bam_filter = True
+heat_map_limit = 10
 ###################
 
 
@@ -77,9 +82,30 @@ mkdir_p(plot_dir)
 mkdir_p(temp_dir)
 ############################
 
+
+### STEP 0: Create Profile #####
+subprocess.call([	'python', 			repo_dir + '0_create_profile.py', \
+					'--exp-name',		exp_name, \
+					'--locus', 			locus, \
+					'--motif',			motif, \
+					'--flank-len',		str(flank_len), \
+					'--ref-gen-dir', 	ref_genome, \
+					'--repo-dir',		repo_dir, \
+					'--exp-dir',		exp_dir, \
+					'--read-len',		str(read_len), \
+					'--coverage',		str(coverage), \
+					'--read-ins-mean',	str(dist_mean), \
+					'--read-ins-stddev',str(dist_sdev), \
+					'--num-copy'] +		[str(nc) for nc in copy_list] + \
+					['--base-error',		str(base_error), \
+					'--num-threads',	str(num_threads), \
+					'--bam-filter', 	str(bam_filter), \
+					'--ref-allele-count',str(ref_allele), \
+					'--heat-map-limit', str(heat_map_limit)])
+################################
 ### STEP 1: Simulated Genome ###
 
-for nc in nCopyList:
+for nc in copy_list:
 	out_path = sim_gen_dir + 'nc_' + str(nc) + '.fa'
 	subprocess.call(['python', 		repo_dir + '1.2_simulate_alt_genome_core.py', \
 					'--ref-genome', '/storage/resources/dbase/human/hs37d5/hs37d5.fa', \
@@ -94,7 +120,7 @@ for nc in nCopyList:
 #############################
 
 ### STEP 2: wgsim ###########
-for nc in nCopyList:
+for nc in copy_list:
 	in_path = sim_gen_dir + 'nc_' + str(nc) + '.fa'
 	out_pref= sim_read_dir + 'nc_' + str(nc)
 	subprocess.call(['python', 		repo_dir + '2.2_read_simulated_data_core.py', \
@@ -117,7 +143,7 @@ for nc in nCopyList:
 
 ### STEP 3: Alignment #######
 if align_flag == 'True':
-	for nc in nCopyList:
+	for nc in copy_list:
 		read_grp_header = 	'\'@RG\\tID:' + exp_name + \
 							'\\tSM:' + str(nc) + \
 							'\\tLB:' + str(coverage)+ \
@@ -129,13 +155,13 @@ if align_flag == 'True':
 						'--out-pref', 	out_pref, \
 						'--in-pref', 	in_pref, \
 						'--read-grp',	read_grp_header, \
-						'--num-threads',str(5)])
+						'--num-threads',str(num_threads)])
 
 ##############################
 
 
 ### STEP 5: Filter: Filter out all non-spanning read pairs #######
-for nc in nCopyList:
+for nc in copy_list:
 	in_pref = algn_read_dir + 'nc_' + str(nc)
 	out_pref = algn_read_dir + 'nc_' + str(nc) + '_flt'
 	subprocess.call(['python', 		repo_dir + '5.2_filter_spanning_only_core.py', \
@@ -148,7 +174,7 @@ for nc in nCopyList:
 ##################################################################
 
 ### STEP 9: Estimate: Estimate STR length, compute error, and plot #####
-for nc in nCopyList:
+for nc in copy_list:
 	in_path = algn_read_dir + 'nc_' + str(nc) + '_flt.bam'
 	plot_path = plot_dir + 'nc_' + str(nc) + '.pdf'
 	estm_path = estm_dir + 'nc_' + str(nc) + '.txt'

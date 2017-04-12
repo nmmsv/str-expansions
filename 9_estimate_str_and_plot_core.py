@@ -73,8 +73,8 @@ if np.abs(dist_mean - param1[0]) < np.abs(dist_mean - param0[0]):		# swap if 1 i
 	param0 = param1
 	param1 = temp 		# Swap
 
-delta0 = np.abs(dist_mean - param0[0]) / len(motif)
-delta1 = np.abs(dist_mean - param1[0]) / len(motif)
+delta0 = -1 * (dist_mean - param0[0]) / len(motif)
+delta1 = -1 * (dist_mean - param1[0]) / len(motif)
 
 est_allele = np.abs(param1[0] - param0[0]) / len(motif) + ref_allele
 
@@ -84,18 +84,20 @@ error = ((est_allele - alt_allele) / alt_allele) ** 2
 estm_file_handle.write('#\t\tReference Allele:\t' + str(ref_allele) + '\n')
 estm_file_handle.write('#(True)\t\tAlternate Allele:\t' + str(alt_allele) + '\n')
 estm_file_handle.write('#(Estimate)\t\tAlternate Allele:\t' + str(est_allele) + '\n' + '\n')
-estm_file_handle.write('#peak\tmean\tstd_dev\tWeight\tDelta(*motif)\tSqDiff\n')
+estm_file_handle.write('#peak\tmean\tstd_dev\tWeight\tDelta(*motif)\test_Allele\tSqDiff\n')
 estm_file_handle.write('0\t{0:.2f}'.format(param0[0]) + \
 		'\t{0:.2f}'.format(param0[1]) + '\t{0:.2f}'.format(param0[2]) + \
-		'\t{0:.2f}'.format(delta0) +'\t0.0\n')
+		'\t{0:.2f}'.format(delta0) +'\t10\t0.0\n')
 estm_file_handle.write('1\t{0:.2f}'.format(param1[0]) + \
 		'\t{0:.2f}'.format(param1[1]) + '\t{0:.2f}'.format(param1[2]) + \
-		'\t{0:.2f}'.format(delta1) + '\t{0:.3f}'.format(error) + '\n')
+		'\t{0:.2f}'.format(delta1) + '\t{0:.2f}'.format(est_allele) + '\t{0:.3f}'.format(error) + '\n')
 
 # the histogram of the data'
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.scatter(x, y)
+n, bins, patches = ax.hist(deq, bins = int(len(deq) / 40) + 7, normed=0, facecolor='green', alpha=0.75)
+
+# ax.scatter(x, y)
 ax.set_xlabel('Mapped Mate Pair Outer Distance')
 ax.set_ylabel('Count')
 
@@ -108,9 +110,9 @@ x1 = x[pred == 1]
 cent = (param1[0] + param0[0]) / 2
 stdd = max(param0[1], param1[1])
 xplot = np.linspace(cent - 10 * stdd, cent + 10 * stdd, 100)
-ax.plot(xplot, max(y) * gauss(xplot, param0[0], param0[1], param0[2]), \
+ax.plot(xplot, max(n) * gauss(xplot, param0[0], param0[1], param0[2]), \
 	color = 'red', lw = 3, label = 'model0')
-ax.plot(xplot, max(y) * gauss(xplot, param1[0], param1[1], param1[2]), \
+ax.plot(xplot, max(n) * gauss(xplot, param1[0], param1[1], param1[2]), \
 	color = 'blue', lw = 3, label = 'model1')
 ax.axvline(x = dist_mean, color = 'k', linestyle = '--')
 fig.savefig(plot_path)

@@ -32,14 +32,14 @@ motif = 'GCA'
 ref_allele = 10
 
 
-exp_name = 'ATXN7_17_class2_cov5_dist300'
+exp_name = 'ATXN7_18_class2_cov50_dist400'
 
-copy_list = [10,20,40,80,120]
+copy_list = [10,20,40,80,120,200]
 flank_len = 2000
 base_error = 0.0
-dist_mean  = 300
+dist_mean  = 400
 dist_sdev  = 50
-coverage = 5
+coverage = 50
 read_len = 100
 mutat_rate = 0.0
 indel_frac = 0.0

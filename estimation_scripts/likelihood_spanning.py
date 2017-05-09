@@ -1,25 +1,27 @@
 from scipy.stats import norm
 import numpy as np
 
-def prob_span (arg_dict, num_copy):
+def prob_span (arg_dict, A):
 	dist_mean = arg_dict['read_ins_mean']
 	dist_sdev = arg_dict['read_ins_stddev']
 	flank_len = arg_dict['flank_len']
 	read_len = arg_dict['read_len']
 	motif = arg_dict['motif']
-	str_len = num_copy * len(motif)
+	str_len = A * len(motif)
 	# Compute normalization constant norm_const
 	rv_dist = norm(loc = dist_mean, scale = dist_sdev)
 	norm_const = rv_dist.cdf(2 * flank_len + str_len) - rv_dist.cdf(2 * read_len)
 
 	term1 = rv_dist.cdf(2 * flank_len + str_len) - rv_dist.cdf(2 * read_len + str_len)
-	term2 = np.exp(-((2 * flank_len + str_len - dist_mean) / dist_sdev) ** 2 / 2) - \
-			np.exp(-((2 * read_len + str_len - dist_mean) / dist_sdev) ** 2 / 2)
+	term2 = np.exp(-(float(2 * flank_len + str_len - dist_mean) / float(dist_sdev)) ** float(2) / float(2)) - \
+			np.exp(-(float(2 * read_len + str_len - dist_mean) / float(dist_sdev)) ** float(2) / float(2))
 
-	comb_term = (dist_mean - 2 * read_len - str_len) * term1 - \
-				dist_sdev / 2 / np.pi * term2
+	# CHANGE: 2*pi -> np.sqrt(2 * pi)
+	comb_term = float(dist_mean - 2 * read_len - str_len) * term1 - \
+				float(dist_sdev) / np.sqrt(2 * np.pi) * term2
 
-	return comb_term / norm_const / (2 * flank_len + str_len)
+	return comb_term / norm_const / float(2 * flank_len + str_len)
+
 
 
 
@@ -41,14 +43,14 @@ def calc_likelihood_span(arg_dict, A, B, samp_r):
 	rv_dist_A = norm(loc = mean_A, scale = dist_sdev)
 	rv_dist_B = norm(loc = mean_B, scale = dist_sdev)
 
-	prob_A__span = prob_span__A * prob_A / \
-					(prob_span__A * prob_A + prob_span__B * prob_B)
-	prob_B__span = prob_span__B * prob_B / \
-					(prob_span__A * prob_A + prob_span__B * prob_B)
+	# prob_A__span = prob_span__A * prob_A / \
+	# 				(prob_span__A * prob_A + prob_span__B * prob_B)
+	# prob_B__span = prob_span__B * prob_B / \
+	# 				(prob_span__A * prob_A + prob_span__B * prob_B)
 
 
 	# f (r | <A,B>)
-	likelihood = prob_A__span * rv_dist_A.pdf(samp_r) + \
-				 prob_B__span * rv_dist_B.pdf(samp_r)
+	likelihood = prob_A * prob_span__A * rv_dist_A.pdf(samp_r) + \
+				 prob_B * prob_span__B * rv_dist_B.pdf(samp_r)
 
 	return likelihood

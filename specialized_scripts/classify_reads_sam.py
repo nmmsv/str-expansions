@@ -41,7 +41,7 @@ with open(in_sam, 'r') as in_sam_handle:
 			if (row[2] == chrom and int(row[3]) >= locus_start - read_len and int(row[3]) <= locus_end): # Reads mapped within region
 				sample = row[9]
 				nCopy, pos, score = expansion_aware_realign(sample, pre, post, motif, score_dict, verbose)
-				read_class = classify_realigned_read(sample, motif, pos, nCopy, read_len, margin, verbose)
+				read_class = classify_realigned_read(sample, motif, pos, nCopy, score, score_dict, read_len, margin, verbose)
 				print '>> ', read_class, ':'
 				print '>> nCopy =', nCopy
 				print '>> score =', score

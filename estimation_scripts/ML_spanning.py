@@ -34,10 +34,15 @@ def calc_likelihood_sam (A, B, sam_path, arg_dict):
 
 fn = lambda x: -1 * calc_likelihood_sam(x[0], x[1], sam_path, arg_dict)
 
-# Try dioffenet methods to see which one works best/fastest
-res = minimize(fn, x0 = [10, 20], \
-				method = 'L-BFGS-B', \
-				bounds = ((1, 150), (1, 150)))	
+# # Try dioffenet methods to see which one works best/fastest
+# res = minimize(fn, x0 = [10, 20], \
+# 				method = 'L-BFGS-B', \
+# 				bounds = ((1, 150), (1, 150)))	
 
-print [round(j) for j in res.x]
-print fn(res.x)
+# print [round(j) for j in res.x]
+# print fn(res.x)
+
+# for i in range(10, 210, 20):
+# 	print fn([10, i])
+
+print fn([10, 20])

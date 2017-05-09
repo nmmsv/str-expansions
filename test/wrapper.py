@@ -32,14 +32,17 @@ motif = 'GCA'
 ref_allele = 10
 
 
-exp_name = 'ATXN7_18_class2_cov50_dist400'
+exp_name = 'ATXN7_19_cov60_dist500'
 
-copy_list = [10,20,40,80,120,200]
-flank_len = 2000
+copy_list = [10,20,30,40,50,80]
+flank_len = 3000
 base_error = 0.0
-dist_mean  = 400
-dist_sdev  = 50
+
+dist_mean  = 500
+dist_sdev  = 60
+
 coverage = 50
+
 read_len = 100
 mutat_rate = 0.0
 indel_frac = 0.0
@@ -104,40 +107,41 @@ subprocess.call([	'python', 			repo_dir + '0_create_profile.py', \
 					'--heat-map-limit', str(heat_map_limit)])
 ################################
 ### STEP 1: Simulated Genome ###
-
-for nc in copy_list:
-	out_path = sim_gen_dir + 'nc_' + str(nc) + '.fa'
-	subprocess.call(['python', 		repo_dir + '1.2_simulate_alt_genome_core.py', \
-					'--ref-genome', '/storage/resources/dbase/human/hs37d5/hs37d5.fa', \
-					'--exp-name', 	exp_name, \
-					'--out', 		out_path, \
-					'--locus-bed',	locus, \
-					'--motif',		motif, \
-					'--flank-len', 	str(flank_len), \
-					'--temp-dir', 	temp_dir, \
-					'--num-copy',	str(nc)])
+if align_flag == 'True':
+	for nc in copy_list:
+		out_path = sim_gen_dir + 'nc_' + str(nc) + '.fa'
+		subprocess.call(['python', 		repo_dir + '1.2_simulate_alt_genome_core.py', \
+						'--ref-genome', '/storage/resources/dbase/human/hs37d5/hs37d5.fa', \
+						'--exp-name', 	exp_name, \
+						'--out', 		out_path, \
+						'--locus-bed',	locus, \
+						'--motif',		motif, \
+						'--flank-len', 	str(flank_len), \
+						'--temp-dir', 	temp_dir, \
+						'--num-copy',	str(nc)])
 
 #############################
 
 ### STEP 2: wgsim ###########
-for nc in copy_list:
-	in_path = sim_gen_dir + 'nc_' + str(nc) + '.fa'
-	out_pref= sim_read_dir + 'nc_' + str(nc)
-	subprocess.call(['python', 		repo_dir + '2.2_read_simulated_data_core.py', \
-					'--exp-name', 	exp_name, \
-					'--fasta-in',	in_path, \
-					'--out-pref', 	out_pref, \
-					'--coverage',	str(coverage), \
-					'--num-copy',	str(nc), \
-					'--dist-mean', 	str(dist_mean), \
-					'--dist-sdev', 	str(dist_sdev), \
-					'--motif',		motif, \
-					'--base-error',	str(base_error), \
-					'--flank-len', 	str(flank_len), \
-					'--read-len',	str(read_len), \
-					'--mutat-rate',	str(mutat_rate), \
-					'--indel-frac', str(indel_frac), \
-					'--indel-xtnd', str(indel_xtnd)])
+if align_flag == 'True':
+	for nc in copy_list:
+		in_path = sim_gen_dir + 'nc_' + str(nc) + '.fa'
+		out_pref= sim_read_dir + 'nc_' + str(nc)
+		subprocess.call(['python', 		repo_dir + '2.2_read_simulated_data_core.py', \
+						'--exp-name', 	exp_name, \
+						'--fasta-in',	in_path, \
+						'--out-pref', 	out_pref, \
+						'--coverage',	str(coverage), \
+						'--num-copy',	str(nc), \
+						'--dist-mean', 	str(dist_mean), \
+						'--dist-sdev', 	str(dist_sdev), \
+						'--motif',		motif, \
+						'--base-error',	str(base_error), \
+						'--flank-len', 	str(flank_len), \
+						'--read-len',	str(read_len), \
+						'--mutat-rate',	str(mutat_rate), \
+						'--indel-frac', str(indel_frac), \
+						'--indel-xtnd', str(indel_xtnd)])
 
 #############################
 
@@ -160,10 +164,10 @@ if align_flag == 'True':
 ##############################
 
 
-### STEP 5: Filter: Filter out all non-spanning read pairs #######
+### STEP 5: Filter: Find Spanning Read Pairs #######
 for nc in copy_list:
 	in_pref = algn_read_dir + 'nc_' + str(nc)
-	out_pref = algn_read_dir + 'nc_' + str(nc) + '_flt'
+	out_pref = algn_read_dir + 'nc_' + str(nc) + '_srp'
 	subprocess.call(['python', 		repo_dir + '5.2_filter_spanning_only_core.py', \
 					'--ref-genome', '/storage/resources/dbase/human/hs37d5/hs37d5.fa', \
 					'--out-pref', 	out_pref, \
@@ -173,19 +177,41 @@ for nc in copy_list:
 
 ##################################################################
 
-### STEP 9: Estimate: Estimate STR length, compute error, and plot #####
+### STEP 5: Filter: Find Enclosing Reads #######
 for nc in copy_list:
-	in_path = algn_read_dir + 'nc_' + str(nc) + '_flt.bam'
-	plot_path = plot_dir + 'nc_' + str(nc) + '.pdf'
-	estm_path = estm_dir + 'nc_' + str(nc) + '.txt'
-	subprocess.call(['python', 		repo_dir + '9_estimate_str_and_plot_core.py', \
-					'--in-path', 	in_path, \
-					'--estm-path',	estm_path,\
-					'--plot-path',	plot_path,\
-					'--ref-allele',	str(ref_allele),\
-					'--alt-allele',	str(nc),\
-					'--motif', 		motif,\
-					'--dist-mean',	str(dist_mean),\
-					'--temp-dir',	temp_dir])
+	in_pref = algn_read_dir + 'nc_' + str(nc)
+	out_pref = algn_read_dir + 'nc_' + str(nc) + '_er'
+	subprocess.call(['python', 		repo_dir + '5.2_filter_enclosing_only_core.py', \
+					'--out-pref', 	out_pref, \
+					'--in-pref', 	in_pref, \
+					'--exp-dir',	exp_dir ])
 
-#########################################################################
+##################################################################
+
+### STEP 5: Filter: Find Fully Repetitive Reads #######
+for nc in copy_list:
+	in_pref = algn_read_dir + 'nc_' + str(nc)
+	out_pref = algn_read_dir + 'nc_' + str(nc) + '_frr'
+	subprocess.call(['python', 		repo_dir + '5.2_filter_IRRmate_only_core.py', \
+					'--out-pref', 	out_pref, \
+					'--in-pref', 	in_pref, \
+					'--exp-dir',	exp_dir ])
+
+##################################################################
+
+# ### STEP 9: Estimate: Estimate STR length, compute error, and plot #####
+# for nc in copy_list:
+# 	in_path = algn_read_dir + 'nc_' + str(nc) + '_flt.bam'
+# 	plot_path = plot_dir + 'nc_' + str(nc) + '.pdf'
+# 	estm_path = estm_dir + 'nc_' + str(nc) + '.txt'
+# 	subprocess.call(['python', 		repo_dir + '9_estimate_str_and_plot_core.py', \
+# 					'--in-path', 	in_path, \
+# 					'--estm-path',	estm_path,\
+# 					'--plot-path',	plot_path,\
+# 					'--ref-allele',	str(ref_allele),\
+# 					'--alt-allele',	str(nc),\
+# 					'--motif', 		motif,\
+# 					'--dist-mean',	str(dist_mean),\
+# 					'--temp-dir',	temp_dir])
+
+# #########################################################################

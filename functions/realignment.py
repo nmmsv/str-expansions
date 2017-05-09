@@ -195,7 +195,7 @@ def expansion_aware_realign(sample, pre, post, motif, score_dict, verbose = Fals
     return max_nCopy, max_pos, max_score
 
 # margin: amount of slip we allow between alignment position and STR start and end
-def classify_realigned_read(sample, motif, start_pos, nCopy, read_len, margin, verbose):
+def classify_realigned_read(sample, motif, start_pos, nCopy, score, score_dict, read_len, margin, verbose):
     end_pos = start_pos + len(sample) - 1
 
     start_str = read_len
@@ -216,29 +216,37 @@ def classify_realigned_read(sample, motif, start_pos, nCopy, read_len, margin, v
     else:
         end_in_str = False
 
-    if nCopy == 0:
+    score_threshold = int(0.9 * read_len * score_dict['match']) 
+
+    if score < score_threshold:
         if verbose:
-            print '>> Non-spanning'
+            print '>> Non-spanning (low score)'
+            print '>> Score:', score
         return 'NoSpan'
     else:
-        if start_in_str and end_in_str:
+        if nCopy == 0:
             if verbose:
-                print '>> IRR'
-            return 'IRR'
-        elif start_in_str and ~end_in_str:
-            if verbose:
-                print '>> Post-Flank'
-            return 'PostFlank'
-        elif ~start_in_str and end_in_str:
-            if verbose:
-                print '>> Pre-Flank'
-            return 'PreFlank'
-        elif ~start_in_str and ~end_in_str:
-            if start_pos < start_str and end_pos > end_str:
+                print '>> Non-spanning'
+            return 'NoSpan'
+        else:
+            if start_in_str and end_in_str:
                 if verbose:
-                    print '>> Spanning'
-                return 'Span'
-            else:
+                    print '>> IRR'
+                return 'IRR'
+            elif start_in_str and ~end_in_str:
                 if verbose:
-                    print 'UNKNOWN TYPE'
-                return 'unknown'
+                    print '>> Post-Flank'
+                return 'PostFlank'
+            elif ~start_in_str and end_in_str:
+                if verbose:
+                    print '>> Pre-Flank'
+                return 'PreFlank'
+            elif ~start_in_str and ~end_in_str:
+                if start_pos < start_str and end_pos > end_str:
+                    if verbose:
+                        print '>> Enclosing'
+                    return 'Enclosing'
+                else:
+                    if verbose:
+                        print 'UNKNOWN TYPE'
+                    return 'unknown'

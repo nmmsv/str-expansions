@@ -112,14 +112,14 @@ out_sam_handle.close()
 
 # print list_rows
 # Sort and index filtered bam
-os.system('samtools view -bT ' + \
-		ref_gen_dir + ' ' + \
-		out_pref + '.sam' + ' ' + 
-		'> ' + out_pref + '.bam')
-os.system('samtools sort -o ' + \
-		out_pref + '.sorted.bam '+ \
-		out_pref + '.bam')
-os.system('samtools index ' + \
-		out_pref + '.sorted.bam ' + \
-		out_pref + '.sorted.bai')
-os.system('samtools index ' + out_pref + '.sorted.bam')
+# os.system('samtools view -bT ' + \
+# 		ref_gen_dir + ' ' + \
+# 		out_pref + '.sam' + ' ' + 
+# 		'> ' + out_pref + '.bam')
+# os.system('samtools sort -o ' + \
+# 		out_pref + '.sorted.bam '+ \
+# 		out_pref + '.bam')
+# os.system('samtools index ' + \
+# 		out_pref + '.sorted.bam ' + \
+# 		out_pref + '.sorted.bai')
+# os.system('samtools index ' + out_pref + '.sorted.bam')

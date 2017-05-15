@@ -81,7 +81,7 @@ def span_class_prob (arg_dict, A):
 	rv_dist = norm(loc = dist_mean, scale = dist_sdev)
 	norm_const = rv_dist.cdf(2 * flank_len + str_len) - rv_dist.cdf(2 * read_len)
 
-	coef0 = 1 / norm_const / float(2 * flank_len + str_len)
+	coef0 = 1.0 / norm_const / float(2 * flank_len + str_len)
 
 	coef1 = - float(dist_sdev)  / np.sqrt(2 * np.pi)
 	term1 = np.exp(-0.5 * (float(2 * flank_len + str_len - dist_mean) / float(dist_sdev)) ** float(2)) - \
@@ -89,8 +89,9 @@ def span_class_prob (arg_dict, A):
 	coef2 = float(dist_mean - 2 * read_len - str_len)
 	term2 = rv_dist.cdf(2 * flank_len + str_len) - rv_dist.cdf(2 * read_len + str_len)
 
-	return_value = coef0 * (coef1 * term1 + coef2 * term2)
 
+	return_value = coef0 * (coef1 * term1 + coef2 * term2)
+	# print coef1, term1, coef1 * term1, '\t', coef2, term2, coef2 * term2
 	return return_value
 
 
@@ -106,7 +107,7 @@ def span_read_prob (arg_dict, A, sample_ins):
 
 	return rv_dist_A.pdf(sample_ins)
 
-def span_allele_likelihood (arg_dict, A, sample_ins):
+def span_allele_likelihood (arg_dict, A, sample_ins):  
 	return span_class_prob(arg_dict, A) * span_read_prob(arg_dict, A, sample_ins)
 def span_genotype_likelihood(arg_dict, A, B, sample_ins):
 	prob_A = 0.5

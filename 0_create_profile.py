@@ -30,7 +30,8 @@ parser.add_argument('--exp-dir', type = str, \
                     default = '/strorage/expansion-experiments/')
 parser.add_argument('--read-len', type = int, default = 100)
 parser.add_argument('--num-reads', type = int, nargs = '+', default = [1000]) # deprecated
-parser.add_argument('--coverage', type = int, default = 50)
+# Modified the line bellow to fit heatmap needs
+parser.add_argument('--coverage', type = int, nargs = '+', required = True)
 parser.add_argument('--read-ins-mean', type = int, default = 500)
 parser.add_argument('--read-ins-stddev', type = int, default = 50)
 parser.add_argument('--num-copy', type = int, nargs = '+', required = True)

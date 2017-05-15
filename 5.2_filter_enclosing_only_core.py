@@ -77,25 +77,31 @@ with open(in_sam, 'r') as in_sam_handle:
 					nCopy, pos, score = expansion_aware_realign(sample, pre, post, motif, score_dict, verbose)
 					read_class = classify_realigned_read(sample, motif, pos, nCopy, score, score_dict, read_len, margin, verbose)
 					if read_class == 'Enclosing':
-						out_sam_handle.write(record)
+						# row.append(str(nCopy))
+						# row.append(str(pos))
+						# row.append(str(score))
+						out_sam_handle.write('\t'.join(row) + '\n')
+						# out_sam_handle.write(record)
 						print 'Found Enclosing Read!'
 						print nCopy, pos, score, sample
 					else:
 						pass
+		else:
+			out_sam_handle.write(record)
 
 
 out_sam_handle.close()
 
 # print list_rows
 # Sort and index filtered bam
-os.system('samtools view -bT ' + \
-		ref_gen_dir + ' ' + \
-		out_pref + '.sam' + ' ' + 
-		'> ' + out_pref + '.bam')
-os.system('samtools sort -o ' + \
-		out_pref + '.sorted.bam '+ \
-		out_pref + '.bam')
-os.system('samtools index ' + \
-		out_pref + '.sorted.bam ' + \
-		out_pref + '.sorted.bai')
-os.system('samtools index ' + out_pref + '.sorted.bam')
+# os.system('samtools view -bT ' + \
+# 		ref_gen_dir + ' ' + \
+# 		out_pref + '.sam' + ' ' + 
+# 		'> ' + out_pref + '.bam')
+# os.system('samtools sort -o ' + \
+# 		out_pref + '.sorted.bam '+ \
+# 		out_pref + '.bam')
+# os.system('samtools index ' + \
+# 		out_pref + '.sorted.bam ' + \
+# 		out_pref + '.sorted.bai')
+# os.system('samtools index ' + out_pref + '.sorted.bam')

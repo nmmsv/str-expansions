@@ -1,4 +1,4 @@
-# This is the wrapper for the STR experiments.
+# This is the wrapper for the STR experiments. (Heat map edition)
 # This script will take care of creating directories, and calls
 # other scripts as necessary.
 # Parsing and creating paths is dealt with in this script.
@@ -10,7 +10,7 @@ import subprocess
 
 import argparse
 
-parser = argparse.ArgumentParser('Filter sam/bam files to only keep spanning reads.')
+parser = argparse.ArgumentParser('Wrapper for heat map!')
 parser.add_argument('--align', type = str, required = True)
 
 args = parser.parse_args()
@@ -32,16 +32,18 @@ motif = 'GCA'
 ref_allele = 10
 
 
-exp_name = 'ATXN7_20_cov60_dist800'
-
-copy_list = [10,20,40,50,60,70,80,90,100,120,140,160]
-flank_len = 3000
-base_error = 0.0
-
+exp_name = 'ATXN7_21_cov10-80_dist800'
 dist_mean  = 800
 dist_sdev  = 50
 
-coverage = 60
+cov_list = [10,20,30,40,50,60,70,80]
+# coverage = 60
+
+copy_list = [10,20,30,40,50,60,70,80,90,100,120]
+flank_len = 3000
+base_error = 0.0
+
+
 
 read_len = 100
 mutat_rate = 0.0
@@ -96,8 +98,8 @@ subprocess.call([	'python', 			repo_dir + '0_create_profile.py', \
 					'--repo-dir',		repo_dir, \
 					'--exp-dir',		exp_dir, \
 					'--read-len',		str(read_len), \
-					'--coverage',		str(coverage), \
-					'--read-ins-mean',	str(dist_mean), \
+					'--coverage'] +		[str(cov) for cov in cov_list] + \
+					['--read-ins-mean',	str(dist_mean), \
 					'--read-ins-stddev',str(dist_sdev), \
 					'--num-copy'] +		[str(nc) for nc in copy_list] + \
 					['--base-error',		str(base_error), \
@@ -124,80 +126,88 @@ if align_flag == 'True':
 
 #############################
 
+
 ### STEP 2: wgsim ###########
 if align_flag == 'True':
-	for nc in copy_list:
-		in_path = sim_gen_dir + 'nc_' + str(nc) + '.fa'
-		out_pref= sim_read_dir + 'nc_' + str(nc)
-		subprocess.call(['python', 		repo_dir + '2.2_read_simulated_data_core.py', \
-						'--exp-name', 	exp_name, \
-						'--fasta-in',	in_path, \
-						'--out-pref', 	out_pref, \
-						'--coverage',	str(coverage), \
-						'--num-copy',	str(nc), \
-						'--dist-mean', 	str(dist_mean), \
-						'--dist-sdev', 	str(dist_sdev), \
-						'--motif',		motif, \
-						'--base-error',	str(base_error), \
-						'--flank-len', 	str(flank_len), \
-						'--read-len',	str(read_len), \
-						'--mutat-rate',	str(mutat_rate), \
-						'--indel-frac', str(indel_frac), \
-						'--indel-xtnd', str(indel_xtnd)])
+	for coverage in cov_list:
+		for nc in copy_list:
+			in_path = sim_gen_dir + 'nc_' + str(nc) + '.fa'
+			out_pref= sim_read_dir + 'nc' + str(nc) + '_cv' + str(coverage)
+			subprocess.call(['python', 		repo_dir + '2.2_read_simulated_data_core.py', \
+							'--exp-name', 	exp_name, \
+							'--fasta-in',	in_path, \
+							'--out-pref', 	out_pref, \
+							'--coverage',	str(coverage), \
+							'--num-copy',	str(nc), \
+							'--dist-mean', 	str(dist_mean), \
+							'--dist-sdev', 	str(dist_sdev), \
+							'--motif',		motif, \
+							'--base-error',	str(base_error), \
+							'--flank-len', 	str(flank_len), \
+							'--read-len',	str(read_len), \
+							'--mutat-rate',	str(mutat_rate), \
+							'--indel-frac', str(indel_frac), \
+							'--indel-xtnd', str(indel_xtnd)])
 
 #############################
 
+
+
 ### STEP 3: Alignment #######
 if align_flag == 'True':
-	for nc in copy_list:
-		read_grp_header = 	'\'@RG\\tID:' + exp_name + \
-							'\\tSM:' + str(nc) + \
-							'\\tLB:' + str(coverage)+ \
-							'\\tPL:' + str(base_error) + '\''
-		in_pref = sim_read_dir + 'nc_' + str(nc)
-		out_pref = algn_read_dir + 'nc_' + str(nc)
-		subprocess.call(['python', 		repo_dir + '3.2_align_read_core.py', \
-						'--ref-genome', '/storage/resources/dbase/human/hs37d5/hs37d5.fa', \
-						'--out-pref', 	out_pref, \
-						'--in-pref', 	in_pref, \
-						'--read-grp',	read_grp_header, \
-						'--num-threads',str(num_threads)])
+	for coverage in cov_list:
+		for nc in copy_list:
+			read_grp_header = 	'\'@RG\\tID:' + exp_name + \
+								'\\tSM:' + str(nc) + \
+								'\\tLB:' + str(coverage)+ \
+								'\\tPL:' + str(base_error) + '\''
+			in_pref= sim_read_dir + 'nc' + str(nc) + '_cv' + str(coverage)
+			out_pref = algn_read_dir + 'nc' + str(nc) + '_cv' + str(coverage)
+			subprocess.call(['python', 		repo_dir + '3.2_align_read_core.py', \
+							'--ref-genome', '/storage/resources/dbase/human/hs37d5/hs37d5.fa', \
+							'--out-pref', 	out_pref, \
+							'--in-pref', 	in_pref, \
+							'--read-grp',	read_grp_header, \
+							'--num-threads',str(num_threads)])
 
 ##############################
 
 
 ### STEP 5: Filter: Find Spanning Read Pairs #######
-for nc in copy_list:
-	in_pref = algn_read_dir + 'nc_' + str(nc)
-	out_pref = algn_read_dir + 'nc_' + str(nc) + '_srp'
-	subprocess.call(['python', 		repo_dir + '5.2_filter_spanning_only_core.py', \
-					'--ref-genome', '/storage/resources/dbase/human/hs37d5/hs37d5.fa', \
-					'--out-pref', 	out_pref, \
-					'--in-pref', 	in_pref, \
-					'--locus-bed',	locus, \
-					'--read-len',	str(read_len)])
+for coverage in cov_list:
+	for nc in copy_list:
+		in_pref = algn_read_dir + 'nc' + str(nc) + '_cv' + str(coverage)
+		out_pref = algn_read_dir + 'nc' + str(nc) + '_cv' + str(coverage) + '_srp'
+		subprocess.call(['python', 		repo_dir + '5.2_filter_spanning_only_core.py', \
+						'--ref-genome', '/storage/resources/dbase/human/hs37d5/hs37d5.fa', \
+						'--out-pref', 	out_pref, \
+						'--in-pref', 	in_pref, \
+						'--locus-bed',	locus, \
+						'--read-len',	str(read_len)])
 
 ##################################################################
 
 ### STEP 5: Filter: Find Enclosing Reads #######
-for nc in copy_list:
-	in_pref = algn_read_dir + 'nc_' + str(nc)
-	out_pref = algn_read_dir + 'nc_' + str(nc) + '_er'
-	subprocess.call(['python', 		repo_dir + '5.2_filter_enclosing_only_core.py', \
-					'--out-pref', 	out_pref, \
-					'--in-pref', 	in_pref, \
-					'--exp-dir',	exp_dir ])
+for coverage in cov_list:
+	for nc in copy_list:
+		in_pref = algn_read_dir + 'nc' + str(nc) + '_cv' + str(coverage)
+		out_pref = algn_read_dir + 'nc' + str(nc) + '_cv' + str(coverage) + '_er'
+		subprocess.call(['python', 		repo_dir + '5.2_filter_enclosing_only_core.py', \
+						'--out-pref', 	out_pref, \
+						'--in-pref', 	in_pref, \
+						'--exp-dir',	exp_dir ])
 
 ##################################################################
 
 ### STEP 5: Filter: Find Fully Repetitive Reads #######
-for nc in copy_list:
-	in_pref = algn_read_dir + 'nc_' + str(nc)
-	out_pref = algn_read_dir + 'nc_' + str(nc) + '_frr'
-	subprocess.call(['python', 		repo_dir + '5.2_filter_IRRmate_only_core.py', \
-					'--out-pref', 	out_pref, \
-					'--in-pref', 	in_pref, \
-					'--exp-dir',	exp_dir ])
+for coverage in cov_list:
+	for nc in copy_list:
+		in_pref = algn_read_dir + 'nc' + str(nc) + '_cv' + str(coverage)
+		out_pref = algn_read_dir + 'nc' + str(nc) + '_cv' + str(coverage) + '_frr'
+		subprocess.call(['python', 		repo_dir + '5.2_filter_IRRmate_only_core.py', \
+						'--out-pref', 	out_pref, \
+						'--in-pref', 	in_pref, \
+						'--exp-dir',	exp_dir ])
 
 ##################################################################
 

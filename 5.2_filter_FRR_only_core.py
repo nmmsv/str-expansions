@@ -2,7 +2,7 @@ import subprocess
 import os, sys
 import argparse
 sys.path.append('/storage/nmmsv/str-expansions/functions/')
-from realignment import expansion_aware_realign, classify_realigned_read
+from realignment import expansion_aware_realign, classify_realigned_read, reverse_strand
 from load_info import load_profile, extract_locus_info
 from extract_genome import extract_pre_post_flank
 
@@ -40,6 +40,8 @@ ref_gen_dir = arg_dict['ref_gen_dir']
 exp_name = arg_dict['exp_name']
 temp_dir = exp_dir + '/temp/'
 temp_fa_dir = temp_dir + exp_name
+read_ins_mean = arg_dict['read_ins_mean']
+read_ins_stddev = arg_dict['read_ins_stddev']
 
 
 chrom, locus_start, locus_end = extract_locus_info(locus)
@@ -51,12 +53,8 @@ score_dict = {	'match': 	3, \
 verbose = False
 margin = 2
 
-# Setting the filter edges for left and right
-# Looking for reads such that r1 <= left_filter AND r2 >= right_filter
-left_filter = locus_start - read_len
-right_filter = locus_end
 
-realign = realignment_string (temp_fa_dir, read_len, motif)
+vicinity_factor = 4
 
 in_sam = in_pref + '.sam'
 print 'Filtering ' + in_pref + '.sam'
@@ -66,13 +64,28 @@ with open(in_sam, 'r') as in_sam_handle:
 	for record in in_sam_handle:
 		if record[0] != '@':
 			row = record.split()
-			if len(row[9]) > 0.9 * read_len:		# Discarding soft clipped reads
-				if (row[2] == chrom and row[6] == '=') or (row[6] == chrom):		# checking correct chrom for mate 
-					if int(row[7]) <= locus_start - read_len:						# checking if mate is before STR region
+			# According to SAM specification:
+			RNAME = row[2]
+			POS = int(row[3])
+			RNEXT = row[6]
+			PNEXT = int(row[7])
+			TLEN = int(row[8])
+			SEQ = row[9]
+			if len(SEQ) > 0.9 * read_len:		# Discarding soft clipped reads
+				if (RNAME == chrom and RNEXT == '=') or (RNEXT == chrom):			# checking correct chrom for mate 
+					# checking if mate is in vicinity of STR region
+					if (PNEXT <= locus_start - read_len and PNEXT >= locus_start - read_len - read_ins_mean - vicinity_factor * read_ins_stddev) or \
+						(PNEXT >= locus_end and PNEXT <= locus_end + read_ins_mean + vicinity_factor * read_ins_stddev):
 						if row[2] != chrom:
 							# Performing realignment to check if IRR
 							sample = row[9]
 							nCopy, pos, score = expansion_aware_realign(sample, pre, post, motif, score_dict, verbose)
+							nCopy_rev, pos_rev, score_rev = expansion_aware_realign(reverse_strand(sample), pre, post, motif, score_dict, verbose)
+							if score_rev > score:
+								nCopy = nCopy_rev
+								pos = pos_rev
+								score = score_rev
+								sample = reverse_strand(sample)
 							read_class = classify_realigned_read(sample, motif, pos, nCopy, score, score_dict, read_len, margin, verbose)
 							if read_class == 'IRR':
 								list_reads.append(row[0])			# Saving read_ID of potential reads that going to be extracted
@@ -83,6 +96,12 @@ with open(in_sam, 'r') as in_sam_handle:
 							# Performing realignment to check if IRR
 							sample = row[9]
 							nCopy, pos, score = expansion_aware_realign(sample, pre, post, motif, score_dict, verbose)
+							nCopy_rev, pos_rev, score_rev = expansion_aware_realign(reverse_strand(sample), pre, post, motif, score_dict, verbose)
+							if score_rev > score:
+								nCopy = nCopy_rev
+								pos = pos_rev
+								score = score_rev
+								sample = reverse_strand(sample)
 							read_class = classify_realigned_read(sample, motif, pos, nCopy, score, score_dict, read_len, margin, verbose)
 							if read_class == 'IRR':
 								list_reads.append(row[0])			# Saving read_ID of potential reads that going to be extracted
@@ -97,14 +116,34 @@ with open(in_sam, 'r') as in_sam_handle:
 			out_sam_handle.write(record)
 		else:
 			row = record.split()
-			if row[0] in list_reads:
-				# perform realignment to check this read is the non-spanning read (not the IRR mate)
-				sample = row[9]
-				nCopy, pos, score = expansion_aware_realign(sample, pre, post, motif, score_dict, verbose)
-				read_class = classify_realigned_read(sample, motif, pos, nCopy, score, score_dict, read_len, margin, verbose)
-				if read_class == 'NoSpan':
-					out_sam_handle.write(record)
-					print 'Record Added!'
+			RNAME = row[2]
+			POS = int(row[3])
+			RNEXT = row[6]
+			PNEXT = int(row[7])
+			TLEN = int(row[8])
+			SEQ = row[9]
+			if len(SEQ) > 0.9 * read_len:		# Discarding soft clipped reads
+				if row[0] in list_reads:
+					# perform realignment to check this read is the non-spanning read (not the IRR mate)
+					nCopy, pos, score = expansion_aware_realign(SEQ, pre, post, motif, score_dict, verbose)
+					nCopy_rev, pos_rev, score_rev = expansion_aware_realign(reverse_strand(sample), pre, post, motif, score_dict, verbose)
+					if score_rev > score:
+						nCopy = nCopy_rev
+						pos = pos_rev
+						score = score_rev
+						sample = reverse_strand(sample)
+					read_class = classify_realigned_read(SEQ, motif, pos, nCopy, score, score_dict, read_len, margin, verbose)
+					if read_class == 'NoSpan':
+						if POS <= locus_start:
+							om_col = 'om:i:' + str(locus_start - POS)
+						elif POS >= locus_end:
+							om_col = 'om:i:' + str(POS - locus_end)
+						else:
+							print 'Weird POS:', POS
+						if row[0] == 'ATXN7_27_cov60_dist500_hap_viz_50_haplo_2617_3124_0:0:0_0:0:0_f':
+							print 'Gotchaaaa'
+						out_sam_handle.write('\t'.join(row + [om_col])+'\n')
+						print 'Record Added!'
 
 
 

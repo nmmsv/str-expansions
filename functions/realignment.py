@@ -167,6 +167,19 @@ def alignment_string(aligned_seq1, aligned_seq2):
 
     return ''.join(alignment_string), idents, gaps, mismatches
 
+def reverse_strand(in_str):
+    return_string = ''
+    for char in in_str:
+        if char == 'a' or char == 'A':
+            return_string = 'T' + return_string
+        elif char == 't' or char == 'T':
+            return_string = 'A' + return_string
+        elif char == 'c' or char == 'C':
+            return_string = 'G' + return_string
+        elif char == 'g' or char == 'G':
+            return_string = 'C' + return_string
+    return return_string
+
 
 def expansion_aware_realign(sample, pre, post, motif, score_dict, verbose = False):
     read_len = len(pre)
@@ -185,13 +198,13 @@ def expansion_aware_realign(sample, pre, post, motif, score_dict, verbose = Fals
             max_score = score
             max_nCopy = nCopy
             max_pos = pos
-
+        if score == read_len * score_dict['match']:
+            break
     if verbose:
         print '>>>>>>>'
         print '> Best nCopy = ', max_nCopy
         print '> Score (for best nCopy) = ', max_score
         print '> Best Alignment Position = ', max_pos
-        
     return max_nCopy, max_pos, max_score
 
 # margin: amount of slip we allow between alignment position and STR start and end

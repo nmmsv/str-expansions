@@ -14,6 +14,7 @@ parser.add_argument('--motif', 		type = str, required = True)
 parser.add_argument('--flank-len', 	type = int, required = True)
 parser.add_argument('--temp-dir', 	type = str, required = True)
 parser.add_argument('--num-copy', 	type = int, required = True)
+parser.add_argument('--diploid', 	type = str, required = True)
 
 args = parser.parse_args()
 
@@ -25,6 +26,7 @@ num_copy = args.num_copy
 out_file = args.out
 exp_name = args.exp_name
 temp_dir = args.temp_dir
+diploid = args.diploid
 
 # STR_locus contains the information for the STR locus
 # Format: Chr	Start	End	MotifLength	nCopies
@@ -88,10 +90,14 @@ with open (suffix_fa, 'r') as sufFile:
 
 	
 with open(out_file, 'w') as f:
-	f.write('>' + exp_name + '_' + str(num_copy) + '_altAllele\n')
-	f.write(prefix_haplo + motif * num_copy + suffix_haplo + '\n')
-	f.write('>' + exp_name + '_' + str(num_copy)+'_refAllele\n')
-	f.write(refHap + '\n')
+	if diploid == 'True':
+		f.write('>' + exp_name + '_' + str(num_copy) + '_altAllele\n')
+		f.write(prefix_haplo + motif * num_copy + suffix_haplo + '\n')
+		f.write('>' + exp_name + '_' + str(num_copy)+'_refAllele\n')
+		f.write(refHap + '\n')
+	else:
+		f.write('>' + exp_name + '_' + str(num_copy) + '_haplo\n')
+		f.write(prefix_haplo + motif * num_copy + suffix_haplo + '\n')
 print '# Created fasta file: ' + out_file
 
 

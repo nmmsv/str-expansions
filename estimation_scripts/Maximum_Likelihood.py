@@ -120,11 +120,11 @@ fn_frep = lambda x: (-1 * IRR_sam_likelihood(x[0], x[1], in_frep, arg_dict))
 
 
 
-# encl_allele,encl_allele_freq = encl_sam_genotype(in_encl, arg_dict)
-# print encl_allele, encl_allele_freq
+encl_allele,encl_allele_freq = encl_sam_genotype(in_encl, arg_dict)
+print encl_allele, encl_allele_freq
 
 
-encl_allele = [10]
+# encl_allele = [10]
 if len(encl_allele) == 1:
 	fn_span_single = lambda x: (-1 * span_sam_likelihood(x[0], encl_allele[0], in_span, arg_dict))
 

@@ -10,6 +10,12 @@ import subprocess
 
 import argparse
 
+def find_motif_refAll(locus):
+	with open(locus, 'r') as f:
+		line = f.read().split()
+		return line[5], int(line[4])
+
+
 parser = argparse.ArgumentParser('Filter sam/bam files to only keep spanning reads.')
 parser.add_argument('--align', type = str, required = True)
 
@@ -27,21 +33,26 @@ if align_flag == 'False':
 repo_dir = '/storage/nmmsv/str-expansions/'
 base_dir = '/storage/nmmsv/expansion-experiments/'
 ref_genome = '/storage/resources/dbase/human/hs37d5/hs37d5.fa'
-locus = repo_dir + '/loci/ATXN7.bed'
-motif = 'GCA'
-ref_allele = 10
 
+diploid = 'False'
 
-exp_name = 'ATXN7_20_cov60_dist800'
+###################
+locus_name = 'CACNA1A'
+exp_name = locus_name + '_31_cov10_dist500_hap_viz'
+coverage = 10
 
-copy_list = [10,20,40,50,60,70,80,90,100,120,140,160]
-flank_len = 3000
-base_error = 0.0
-
-dist_mean  = 800
+dist_mean  = 500
 dist_sdev  = 50
 
-coverage = 60
+
+copy_list = [0,3,5,7,10,12,15,20,25,30,40,50,60,70,80,90,100,120,150,180,210,250]
+###################
+
+locus = repo_dir + '/loci/'+locus_name+'.bed'
+motif, ref_allele = find_motif_refAll(locus)
+
+flank_len = 3000
+base_error = 0.0
 
 read_len = 100
 mutat_rate = 0.0
@@ -87,24 +98,25 @@ mkdir_p(temp_dir)
 
 
 ### STEP 0: Create Profile #####
-subprocess.call([	'python', 			repo_dir + '0_create_profile.py', \
-					'--exp-name',		exp_name, \
-					'--locus', 			locus, \
-					'--motif',			motif, \
-					'--flank-len',		str(flank_len), \
-					'--ref-gen-dir', 	ref_genome, \
-					'--repo-dir',		repo_dir, \
-					'--exp-dir',		exp_dir, \
-					'--read-len',		str(read_len), \
-					'--coverage',		str(coverage), \
-					'--read-ins-mean',	str(dist_mean), \
-					'--read-ins-stddev',str(dist_sdev), \
-					'--num-copy'] +		[str(nc) for nc in copy_list] + \
-					['--base-error',		str(base_error), \
-					'--num-threads',	str(num_threads), \
-					'--bam-filter', 	str(bam_filter), \
-					'--ref-allele-count',str(ref_allele), \
-					'--heat-map-limit', str(heat_map_limit)])
+if align_flag == 'True':
+	subprocess.call([	'python', 			repo_dir + '0_create_profile.py', \
+						'--exp-name',		exp_name, \
+						'--locus', 			locus, \
+						'--motif',			motif, \
+						'--flank-len',		str(flank_len), \
+						'--ref-gen-dir', 	ref_genome, \
+						'--repo-dir',		repo_dir, \
+						'--exp-dir',		exp_dir, \
+						'--read-len',		str(read_len), \
+						'--coverage',		str(coverage), \
+						'--read-ins-mean',	str(dist_mean), \
+						'--read-ins-stddev',str(dist_sdev), \
+						'--num-copy'] +		[str(nc) for nc in copy_list] + \
+						['--base-error',		str(base_error), \
+						'--num-threads',	str(num_threads), \
+						'--bam-filter', 	str(bam_filter), \
+						'--ref-allele-count',str(ref_allele), \
+						'--heat-map-limit', str(heat_map_limit)])
 ################################
 
 
@@ -120,7 +132,8 @@ if align_flag == 'True':
 						'--motif',		motif, \
 						'--flank-len', 	str(flank_len), \
 						'--temp-dir', 	temp_dir, \
-						'--num-copy',	str(nc)])
+						'--num-copy',	str(nc) ,\
+						'--diploid', 	diploid])
 
 #############################
 
@@ -171,11 +184,9 @@ for nc in copy_list:
 	in_pref = algn_read_dir + 'nc_' + str(nc)
 	out_pref = algn_read_dir + 'nc_' + str(nc) + '_srp'
 	subprocess.call(['python', 		repo_dir + '5.2_filter_spanning_only_core.py', \
-					'--ref-genome', '/storage/resources/dbase/human/hs37d5/hs37d5.fa', \
 					'--out-pref', 	out_pref, \
 					'--in-pref', 	in_pref, \
-					'--locus-bed',	locus, \
-					'--read-len',	str(read_len)])
+					'--exp-dir',	exp_dir ])
 
 ##################################################################
 
@@ -188,13 +199,13 @@ for nc in copy_list:
 					'--in-pref', 	in_pref, \
 					'--exp-dir',	exp_dir ])
 
-##################################################################
+#################################################################
 
 ### STEP 5: Filter: Find Fully Repetitive Reads #######
 for nc in copy_list:
 	in_pref = algn_read_dir + 'nc_' + str(nc)
 	out_pref = algn_read_dir + 'nc_' + str(nc) + '_frr'
-	subprocess.call(['python', 		repo_dir + '5.2_filter_IRRmate_only_core.py', \
+	subprocess.call(['python', 		repo_dir + '5.2_filter_FRR_only_core.py', \
 					'--out-pref', 	out_pref, \
 					'--in-pref', 	in_pref, \
 					'--exp-dir',	exp_dir ])

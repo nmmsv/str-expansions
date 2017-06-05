@@ -2,7 +2,7 @@ import subprocess
 import os, sys
 import argparse
 sys.path.append('/storage/nmmsv/str-expansions/functions/')
-from realignment import expansion_aware_realign, classify_realigned_read
+from realignment import expansion_aware_realign, classify_realigned_read, reverse_strand
 from load_info import load_profile, extract_locus_info
 from extract_genome import extract_pre_post_flank
 
@@ -40,7 +40,8 @@ ref_gen_dir = arg_dict['ref_gen_dir']
 exp_name = arg_dict['exp_name']
 temp_dir = exp_dir + '/temp/'
 temp_fa_dir = temp_dir + exp_name
-
+read_ins_mean = arg_dict['read_ins_mean']
+read_ins_stddev = arg_dict['read_ins_stddev']
 
 chrom, locus_start, locus_end = extract_locus_info(locus)
 pre, post = extract_pre_post_flank(exp_dir, read_len)
@@ -50,6 +51,9 @@ score_dict = {	'match': 	3, \
 				'gap': 		-3}
 verbose = False
 margin = 2
+
+vicinity_factor = 3
+far_factor = 6
 
 # Setting the filter edges for left and right
 # Looking for reads such that r1 <= left_filter AND r2 >= right_filter
@@ -68,22 +72,61 @@ with open(in_sam, 'r') as in_sam_handle:
 	for record in in_sam_handle:
 		if record[0] != '@':
 			row = record.split()
-			if len(row[9]) > 0.9 * read_len:		# Discarding soft clipped reads
-				if (row[2] == chrom and int(row[3]) >= locus_start - read_len and int(row[3]) <= locus_start) or \
-					(row[2] != chrom):
+			# According to SAM specification:
+			RNAME = row[2]
+			POS = int(row[3])
+			RNEXT = row[6]
+			PNEXT = int(row[7])
+			TLEN = int(row[8])
+			SEQ = row[9]
 
+			if len(SEQ) > 0.9 * read_len:		# Discarding soft clipped reads
+				# 1) if read is overlapping with STR region
+				if (RNAME == chrom and POS >= locus_start - 2 * read_len and POS <= locus_start + read_len):
 					# Performing realignment to check if IRR
-					sample = row[9]
-					nCopy, pos, score = expansion_aware_realign(sample, pre, post, motif, score_dict, verbose)
-					read_class = classify_realigned_read(sample, motif, pos, nCopy, score, score_dict, read_len, margin, verbose)
-					if read_class == 'Enclosing':
-						# row.append(str(nCopy))
-						# row.append(str(pos))
-						# row.append(str(score))
-						out_sam_handle.write('\t'.join(row) + '\n')
-						# out_sam_handle.write(record)
+					nCopy, pos, score = expansion_aware_realign(SEQ, pre, post, motif, score_dict, verbose)
+					nCopy_rev, pos_rev, score_rev = expansion_aware_realign(reverse_strand(SEQ), pre, post, motif, score_dict, verbose)
+					if score_rev > score:
+						nCopy = nCopy_rev
+						pos = pos_rev
+						score = score_rev
+						SEQ = reverse_strand(SEQ)
+					read_class = classify_realigned_read(SEQ, motif, pos, nCopy, score, score_dict, read_len, margin, verbose)
+					if read_class == 'Enclosing' or\
+						 (nCopy == 0 and score > 0.95 * read_len * score_dict['match']and POS > 0.2 * read_len and POS < 0.8 * read_len):
+						nc_col = 'nc:i:' + str(nCopy)
+						ps_col = 'ps:i:' + str(pos)
+						sc_col = 'sc:i:' + str(score)
+						rc_col = 'rc:Z:' + read_class
+						out_sam_handle.write('\t'.join(row + [nc_col, ps_col, sc_col, rc_col])+'\n')
 						print 'Found Enclosing Read!'
-						print nCopy, pos, score, sample
+						print nCopy, pos, score, SEQ
+					else:
+						pass
+				# 2) Mate/next is in vicinity of STR region, but read is not aligned to the same chrom (ins = 0)
+				# 			OR aligned way too far (abs(ins) > read_ins_mean + 6 * read_ins_stddev)
+				elif (RNEXT == chrom and \
+						PNEXT >= locus_start - read_ins_mean - vicinity_factor * read_ins_stddev and \
+						PNEXT <= locus_end   + read_ins_mean + vicinity_factor * read_ins_stddev) and \
+						(TLEN == 0 or np.abs(TLEN) > read_ins_mean + far_factor * read_ins_stddev):
+					# Performing realignment to check if IRR
+					nCopy, pos, score = expansion_aware_realign(SEQ, pre, post, motif, score_dict, verbose)
+					nCopy_rev, pos_rev, score_rev = expansion_aware_realign(reverse_strand(SEQ), pre, post, motif, score_dict, verbose)
+					if score_rev > score:
+						nCopy = nCopy_rev
+						pos = pos_rev
+						score = score_rev
+						SEQ = reverse_strand(SEQ)
+					read_class = classify_realigned_read(SEQ, motif, pos, nCopy, score, score_dict, read_len, margin, verbose)
+					if read_class == 'Enclosing' or \
+						(nCopy == 0 and score > 0.95 * read_len * score_dict['match'] and POS > 0.2 * read_len and POS < 0.8 * read_len):
+						nc_col = 'nc:i:' + str(nCopy)
+						ps_col = 'ps:i:' + str(pos)
+						sc_col = 'sc:i:' + str(score)
+						rc_col = 'rc:Z:' + read_class
+						out_sam_handle.write('\t'.join(row + [nc_col, ps_col, sc_col, rc_col])+'\n')
+						print 'Found Enclosing Read!'
+						print nCopy, pos, score, SEQ
 					else:
 						pass
 		else:

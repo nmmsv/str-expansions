@@ -4,6 +4,8 @@ import pickle
 import sys
 import argparse
 
+sys.path.append('/storage/nmmsv/str-expansions/functions/')
+from load_info import load_profile, extract_locus_info
 
 parser = argparse.ArgumentParser('Simulate alterred genome using bedtools getfasta.')
 parser.add_argument('--ref-genome', type = str, default = '/storage/resources/dbase/human/hs37d5/hs37d5.fa')
@@ -15,7 +17,7 @@ parser.add_argument('--flank-len', 	type = int, required = True)
 parser.add_argument('--temp-dir', 	type = str, required = True)
 parser.add_argument('--num-copy', 	type = int, required = True)
 parser.add_argument('--diploid', 	type = str, required = True)
-
+parser.add_argument('--exp-dir', 	type = str, required = True)
 args = parser.parse_args()
 
 locus_bed = args.locus_bed
@@ -27,7 +29,11 @@ out_file = args.out
 exp_name = args.exp_name
 temp_dir = args.temp_dir
 diploid = args.diploid
+exp_dir = args.exp_dir
 
+arg_dict = load_profile(exp_dir)
+constant_allele = arg_dict['constant_allele']
+ref_allele = arg_dict['ref_allele_count']
 # STR_locus contains the information for the STR locus
 # Format: Chr	Start	End	MotifLength	nCopies
 with open (locus_bed, 'r') as f:
@@ -90,11 +96,16 @@ with open (suffix_fa, 'r') as sufFile:
 
 	
 with open(out_file, 'w') as f:
-	if diploid == 'True':
+	if diploid == 'True' and constant_allele == ref_allele:
 		f.write('>' + exp_name + '_' + str(num_copy) + '_altAllele\n')
 		f.write(prefix_haplo + motif * num_copy + suffix_haplo + '\n')
 		f.write('>' + exp_name + '_' + str(num_copy)+'_refAllele\n')
 		f.write(refHap + '\n')
+	elif diploid == 'True' and constant_allele != ref_allele:
+		f.write('>' + exp_name + '_' + str(num_copy) + '_altAllele\n')
+		f.write(prefix_haplo + motif * num_copy + suffix_haplo + '\n')
+		f.write('>' + exp_name + '_' + str(constant_allele)+'_constAllele\n')
+		f.write(prefix_haplo + motif * constant_allele + suffix_haplo + '\n')
 	else:
 		f.write('>' + exp_name + '_' + str(num_copy) + '_haplo\n')
 		f.write(prefix_haplo + motif * num_copy + suffix_haplo + '\n')

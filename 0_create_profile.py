@@ -40,11 +40,14 @@ parser.add_argument('--num-threads', type = int, default = 4)
 parser.add_argument('--bam-filter', type = bool, default = True)
 parser.add_argument('--ref-allele-count', type = int, required = True)
 parser.add_argument('--heat-map-limit', type = int, default = 10)
+parser.add_argument('--diploid', type = str, required = True)
+parser.add_argument('--constant-allele', type = int, required = True)
 args = parser.parse_args()
 
 print vars(args)
 exp_dir = args.exp_dir
 
+print args.ref_allele_count
 with open(exp_dir + '/profile.txt', 'w') as f:
 	pickle.dump(vars(args), f)
 

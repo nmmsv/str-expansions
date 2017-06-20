@@ -1,6 +1,6 @@
 import subprocess
 import sys
-
+import numpy as np
 import argparse
 
 
@@ -49,6 +49,7 @@ subprocess.call(['wgsim',\
 	'-N', str(num_reads),\
 	'-R', str(indel_frac),\
 	'-X', str(indel_xtnd),\
+	'-S', str(int(np.random.rand(1)[0] * 100)),\
 	in_file, out1_file, out2_file])
 
 

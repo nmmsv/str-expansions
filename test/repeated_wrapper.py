@@ -34,26 +34,27 @@ repo_dir = '/storage/nmmsv/str-expansions/'
 base_dir = '/storage/nmmsv/expansion-experiments/'
 ref_genome = '/storage/resources/dbase/human/hs37d5/hs37d5.fa'
 
+diploid = 'False'
 
 ###################
-locus_name = 'ATXN3'
-exp_name = locus_name + '_45_cov60_dist500_DIP_const40'
+locus_name = 'CACNA1A'
+exp_number = 9
+
+nCopy = 100
+
 coverage = 60
-diploid = 'True'
 
 dist_mean  = 500
 dist_sdev  = 50
 
+copy_list = [nCopy] * 10
 
-copy_list = [0,3,5,7,10,12,15,20,25,30,40,50,60,70,80,90,100,120,150,180,210,250]
-copy_list = [40, 50, 60, 70, 80, 90, 100]
-# copy_list = [80, 100, 120, 150, 180, 210]
+exp_name = 'rpt_' + locus_name + '_' + str(exp_number) + '_nC' + str(nCopy) + '_cov' + str(coverage) + '_dist' + str(dist_mean)
 ###################
 
 locus = repo_dir + '/loci/'+locus_name+'.bed'
 motif, str_len = find_motif_refAll(locus)
 ref_allele = int(str_len / len(motif))
-constant_allele = 40
 flank_len = 3000
 base_error = 0.0
 
@@ -119,16 +120,15 @@ if align_flag == 'True':
 						'--num-threads',	str(num_threads), \
 						'--bam-filter', 	str(bam_filter), \
 						'--ref-allele-count',str(ref_allele), \
-						'--heat-map-limit', str(heat_map_limit), \
-						'--diploid',		diploid,\
-						'--constant-allele',str(constant_allele)])
+						'--heat-map-limit', str(heat_map_limit)])
 ################################
 
 
 ### STEP 1: Simulated Genome ###
+j = 0
 if align_flag == 'True':
 	for nc in copy_list:
-		out_path = sim_gen_dir + 'nc_' + str(nc) + '.fa'
+		out_path = sim_gen_dir + str(j) + 'nc_' + str(nc) + '.fa'
 		subprocess.call(['python', 		repo_dir + '1.2_simulate_alt_genome_core.py', \
 						'--ref-genome', '/storage/resources/dbase/human/hs37d5/hs37d5.fa', \
 						'--exp-name', 	exp_name, \
@@ -138,16 +138,17 @@ if align_flag == 'True':
 						'--flank-len', 	str(flank_len), \
 						'--temp-dir', 	temp_dir, \
 						'--num-copy',	str(nc) ,\
-						'--diploid', 	diploid,\
-						'--exp-dir',	exp_dir])
+						'--diploid', 	diploid])
+		j = j + 1
 
 #############################
 
 ### STEP 2: wgsim ###########
+j = 0
 if align_flag == 'True':
 	for nc in copy_list:
-		in_path = sim_gen_dir + 'nc_' + str(nc) + '.fa'
-		out_pref= sim_read_dir + 'nc_' + str(nc)
+		in_path = sim_gen_dir + str(j) + 'nc_' + str(nc) + '.fa'
+		out_pref= sim_read_dir + str(j) + 'nc_' + str(nc)
 		subprocess.call(['python', 		repo_dir + '2.2_read_simulated_data_core.py', \
 						'--exp-name', 	exp_name, \
 						'--fasta-in',	in_path, \
@@ -163,74 +164,69 @@ if align_flag == 'True':
 						'--mutat-rate',	str(mutat_rate), \
 						'--indel-frac', str(indel_frac), \
 						'--indel-xtnd', str(indel_xtnd)])
+		j = j + 1
 
 #############################
 
 ### STEP 3: Alignment #######
+j = 0
 if align_flag == 'True':
 	for nc in copy_list:
 		read_grp_header = 	'\'@RG\\tID:' + exp_name + \
 							'\\tSM:' + str(nc) + \
 							'\\tLB:' + str(coverage)+ \
 							'\\tPL:' + str(base_error) + '\''
-		in_pref = sim_read_dir + 'nc_' + str(nc)
-		out_pref = algn_read_dir + 'nc_' + str(nc)
+		in_pref = sim_read_dir + str(j) + 'nc_' + str(nc)
+		out_pref = algn_read_dir + str(j) + 'nc_' + str(nc)
 		subprocess.call(['python', 		repo_dir + '3.2_align_read_core.py', \
 						'--ref-genome', '/storage/resources/dbase/human/hs37d5/hs37d5.fa', \
 						'--out-pref', 	out_pref, \
 						'--in-pref', 	in_pref, \
 						'--read-grp',	read_grp_header, \
 						'--num-threads',str(num_threads)])
+		j = j + 1
 
 ##############################
 
 
 ### STEP 5: Filter: Find Spanning Read Pairs #######
+j = 0
 for nc in copy_list:
-	in_pref = algn_read_dir + 'nc_' + str(nc)
-	out_pref = algn_read_dir + 'nc_' + str(nc) + '_srp'
+	in_pref = algn_read_dir + str(j) + 'nc_' + str(nc)
+	out_pref = algn_read_dir + str(j) + 'nc_' + str(nc) + '_srp'
 	subprocess.call(['python', 		repo_dir + '5.2_filter_spanning_only_core.py', \
 					'--out-pref', 	out_pref, \
 					'--in-pref', 	in_pref, \
 					'--exp-dir',	exp_dir ])
+	j = j + 1
 
 ##################################################################
 
 ### STEP 5: Filter: Find Enclosing Reads #######
+j = 0
 for nc in copy_list:
-	in_pref = algn_read_dir + 'nc_' + str(nc)
-	out_pref = algn_read_dir + 'nc_' + str(nc) + '_er'
+	in_pref = algn_read_dir + str(j) + 'nc_' + str(nc)
+	out_pref = algn_read_dir + str(j) + 'nc_' + str(nc) + '_er'
 	subprocess.call(['python', 		repo_dir + '5.2_filter_enclosing_only_core.py', \
 					'--out-pref', 	out_pref, \
 					'--in-pref', 	in_pref, \
 					'--exp-dir',	exp_dir ])
+	j = j + 1
 
 #################################################################
 
 ### STEP 5: Filter: Find Fully Repetitive Reads #######
+j = 0
 for nc in copy_list:
-	in_pref = algn_read_dir + 'nc_' + str(nc)
-	out_pref = algn_read_dir + 'nc_' + str(nc) + '_frr'
+	in_pref = algn_read_dir + str(j) + 'nc_' + str(nc)
+	out_pref = algn_read_dir + str(j) + 'nc_' + str(nc) + '_frr'
 	subprocess.call(['python', 		repo_dir + '5.2_filter_FRR_only_core.py', \
 					'--out-pref', 	out_pref, \
 					'--in-pref', 	in_pref, \
 					'--exp-dir',	exp_dir ])
+	j = j + 1
 
-##################################################################
 
-# ### STEP 9: Estimate: Estimate STR length, compute error, and plot #####
-# for nc in copy_list:
-# 	in_path = algn_read_dir + 'nc_' + str(nc) + '_flt.bam'
-# 	plot_path = plot_dir + 'nc_' + str(nc) + '.pdf'
-# 	estm_path = estm_dir + 'nc_' + str(nc) + '.txt'
-# 	subprocess.call(['python', 		repo_dir + '9_estimate_str_and_plot_core.py', \
-# 					'--in-path', 	in_path, \
-# 					'--estm-path',	estm_path,\
-# 					'--plot-path',	plot_path,\
-# 					'--ref-allele',	str(ref_allele),\
-# 					'--alt-allele',	str(nc),\
-# 					'--motif', 		motif,\
-# 					'--dist-mean',	str(dist_mean),\
-# 					'--temp-dir',	temp_dir])
 
-# #########################################################################
+
+

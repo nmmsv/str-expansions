@@ -21,18 +21,19 @@ def mkdir_p(path):
 
 
 
-exp_dir = '/storage/nmmsv/expansion-experiments/ATXN7_27_cov60_dist500_hap_viz/'
-exp_dir = '/storage/nmmsv/expansion-experiments/ATXN7_28_cov250_dist500_hap_viz/'
-exp_dir = '/storage/nmmsv/expansion-experiments/ATXN3_30_cov10_dist500_hap_viz/'
-exp_dir = '/storage/nmmsv/expansion-experiments/ATXN3_32_cov60_dist500_hap_viz/'
+# exp_dir = '/storage/nmmsv/expansion-experiments/ATXN7_27_cov60_dist500_hap_viz/'
+# exp_dir = '/storage/nmmsv/expansion-experiments/ATXN7_28_cov250_dist500_hap_viz/'
+# exp_dir = '/storage/nmmsv/expansion-experiments/ATXN3_30_cov10_dist500_hap_viz/'
+# exp_dir = '/storage/nmmsv/expansion-experiments/ATXN3_32_cov60_dist500_hap_viz/'
 # exp_dir = '/storage/nmmsv/expansion-experiments/CACNA1A_31_cov10_dist500_hap_viz/'
-
+exp_dir = '/storage/nmmsv/expansion-experiments/ATXN3_33_cov250_dist500_hap_viz/'
+# exp_dir = '/storage/nmmsv/expansion-experiments/CACNA1A_34_cov250_dist500_hap_viz/'
+# exp_dir = '/storage/nmmsv/expansion-experiments/ATXN7_35_cov60_dist500_hap_viz/'
 
 
 sam_dir = exp_dir + 'aligned_read/'
 true_filt_dir = exp_dir + 'aligned_read/true_filter/'
 # true_filt_dir = '/storage/nmmsv/python_playground/test_filter_IRR/'
-print 'kek'
 print true_filt_dir
 mkdir_p(true_filt_dir)
 

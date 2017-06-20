@@ -64,7 +64,7 @@ def FRR_class_prob (arg_dict, A):
 		return_value = coef0 * (coef1 * term1 + coef2 * term2 + coef3 * term3)
 	else:
 		return_value = coef0 * coef3 * term3
-
+	# print A, return_value
 	return return_value
 
 def FRR_read_prob (arg_dict, A, sample_dfl):
@@ -141,6 +141,7 @@ def span_read_prob (arg_dict, A, sample_ins):
 
 	mean_A = dist_mean - len(motif) * (A - ref_count)
 	# shifted insert size distribution
+	# NOTE NOTE NOTE DEVIDIED BY 3!!
 	rv_dist_A = norm(loc = mean_A, scale = dist_sdev)
 
 	return rv_dist_A.pdf(sample_ins)
@@ -169,7 +170,24 @@ def encl_class_prob(arg_dict, A):
 
 def encl_read_prob(arg_dict,A, sample_ncopy):
 	# FILLLLLL INNNNN Stutter model
-	pass
+	u = 0.01
+	d = 0.02
+	p = 1
+	delta = sample_ncopy - A
+	if delta == 0:
+		return 1 - u - d
+	elif delta > 0:
+		return u * p * (1.0 - p) ** (delta - 1.0)
+	else:
+		return d * p * (1.0 - p) ** (-delta - 1.0)
+
+	# # For now, I'll use normal distibution:
+	# encl_sdev = 1.0
+	# rv_encl = norm(loc = sample_ncopy, scale = encl_sdev)
+	# return rv_encl.pdf(A)
+
+def encl_allele_likelihood(arg_dict, A, sample_ncopy):
+	return encl_class_prob(arg_dict, A) * encl_read_prob(arg_dict, A, sample_ncopy)
 
 
 

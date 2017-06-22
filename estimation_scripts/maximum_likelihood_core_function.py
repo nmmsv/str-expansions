@@ -24,7 +24,7 @@ def extract_col_sam(columns, tag):
 
 	raise ValueError ('Cannot find tag: ' + tag)
 
-def FRR_sam_likelihood (A, sam_path, arg_dict):
+def FRR_sam_likelihood (A, sam_path, arg_dict, weights):
 	locus = arg_dict['locus']
 	chrom, locus_start, locus_end = extract_locus_info(locus)
 	log_likelihood = 1
@@ -32,18 +32,22 @@ def FRR_sam_likelihood (A, sam_path, arg_dict):
 		for record in csv.reader(irr_handle, dialect = 'excel-tab'):
 			if record[0][0] != '@':
 				sample_dfl = extract_col_sam(record, 'om')
-				samp_likelihood = FRR_allele_likelihood(arg_dict, A, sample_dfl)
+				if 'diploid' in arg_dict and arg_dict['diploid'] == 'True':
+					samp_likelihood = weights['allele_1'] * FRR_allele_likelihood(arg_dict, A[0], sample_dfl) + \
+										weights['allele_2'] * FRR_allele_likelihood(arg_dict, A[1], sample_dfl)
+				else:
+					samp_likelihood = FRR_allele_likelihood(arg_dict, A, sample_dfl)
 				# print record[0], '\t', locus_start - int(record[3]), '\t', samp_likelihood
 				if samp_likelihood > 0:
 					samp_log_likelihood = np.log(samp_likelihood)
 				else:
-					samp_log_likelihood = -5
+					samp_log_likelihood = -50
 				log_likelihood = log_likelihood + samp_log_likelihood
 				# log_likelihood = log_likelihood * samp_likelihood
 	return log_likelihood
 
 
-def span_sam_likelihood (A, sam_path, arg_dict):
+def span_sam_likelihood (A, sam_path, arg_dict, weights):
 	locus = arg_dict['locus']
 	mean_ins_size = arg_dict['read_ins_mean']
 	chrom, locus_start, locus_end = extract_locus_info(locus)
@@ -54,19 +58,21 @@ def span_sam_likelihood (A, sam_path, arg_dict):
 		for record in csv.reader(irr_handle, dialect = 'excel-tab'):
 			if record[0][0] != '@' and int(record[8]) != 0:
 				sample_ins = extract_col_sam(record, 'is')
-				samp_likelihood = span_allele_likelihood(arg_dict, A, sample_ins)
-
+				if 'diploid' in arg_dict and arg_dict['diploid'] == 'True':
+					samp_likelihood = weights['allele_1'] * span_allele_likelihood(arg_dict, A[0], sample_ins) + \
+										weights['allele_2'] * span_allele_likelihood(arg_dict, A[1], sample_ins)
+				else:
+					samp_likelihood = span_allele_likelihood(arg_dict, A, sample_ins)
 				# print record[0], '\t', sample_ins, '\t', np.abs(sample_ins - mean_ins_size) / 3 + 10, '\t', samp_likelihood
 				yo = yo + np.abs(sample_ins - mean_ins_size) / 3 + 10
 				nn = nn + 1
 				if samp_likelihood > 0:
 					samp_log_likelihood = np.log(samp_likelihood)
-				elif np.abs(samp_likelihood) < 10**-20:		# accounting for comutational errors
-					samp_log_likelihood = np.log(np.abs(samp_likelihood))
-				elif samp_likelihood == 0:
-					samp_log_likelihood = -5
-				else:
-					print 'Error! Negative likelihood:', samp_likelihood
+				# elif np.abs(samp_likelihood) < 10**-20 and samp_likelihood != 0:		# accounting for comutational errors
+				# 	print 'kek'
+				# 	samp_log_likelihood = np.log(np.abs(samp_likelihood))
+				elif samp_likelihood <= 0:
+					samp_log_likelihood = -50
 				log_likelihood = log_likelihood + samp_log_likelihood
 	# print yo / nn
 	return log_likelihood
@@ -94,7 +100,7 @@ def encl_sam_genotype (sam_path, arg_dict):
 
 	return nCopy_list, freq_list
 
-def encl_sam_likelihood (A, sam_path, arg_dict):
+def encl_sam_likelihood (A, sam_path, arg_dict, weights):
 	locus = arg_dict['locus']
 	mean_ins_size = arg_dict['read_ins_mean']
 	chrom, locus_start, locus_end = extract_locus_info(locus)
@@ -104,17 +110,19 @@ def encl_sam_likelihood (A, sam_path, arg_dict):
 		for record in csv.reader(irr_handle, dialect = 'excel-tab'):
 			if record[0][0] != '@' and int(record[8]) != 0:
 				nCopy = extract_col_sam(record, 'nc')
-				samp_likelihood = encl_allele_likelihood(arg_dict, A, nCopy)
+				if 'diploid' in arg_dict and arg_dict['diploid'] == 'True':
+					samp_likelihood = weights['allele_1'] * encl_allele_likelihood(arg_dict, A[0], nCopy) + \
+										weights['allele_2'] * encl_allele_likelihood(arg_dict, A[1], nCopy)
+				else:
+					samp_likelihood = encl_allele_likelihood(arg_dict, A, nCopy)
 				# print record[0], '\t', nCopy, '\t', np.abs(sample_ins - mean_ins_size) / 3 + 10, '\t', samp_likelihood
 				if samp_likelihood > 0:
 					samp_log_likelihood = np.log(samp_likelihood)
-				# elif np.abs(samp_likelihood) < 10**-20:		# accounting for comutational errors
+				# elif np.abs(samp_likelihood) < 10**-20 and samp_likelihood != 0:		# accounting for comutational errors
 				# 	print samp_likelihood, A, nCopy
 				# 	samp_log_likelihood = np.log(np.abs(samp_likelihood))
 				elif samp_likelihood <= 0:
 					samp_log_likelihood = -50
-				else:
-					print 'Error! Negative likelihood:', samp_likelihood
 				log_likelihood = log_likelihood + samp_log_likelihood
 	# print yo / nn
 	return log_likelihood
@@ -166,25 +174,22 @@ def ml_encl_FRR_span(in_pref, exp_dir, weights):
 	in_encl = in_pref + '_er.sam'
 	in_frep = in_pref + '_frr.sam'
 	if 'diploid' in arg_dict and arg_dict['diploid'] == 'True':
-		fn = lambda x: (-weights['frr'] * weights['allele_1'] * FRR_sam_likelihood (x[0], in_frep, arg_dict) + \
-						-weights['frr'] * weights['allele_2'] * FRR_sam_likelihood (x[1], in_frep, arg_dict) + \
-						-weights['srp'] * weights['allele_1'] * span_sam_likelihood(x[0], in_span, arg_dict) + \
-						-weights['srp'] * weights['allele_2'] * span_sam_likelihood(x[1], in_span, arg_dict) + \
-						-weights['er' ] * weights['allele_1'] * encl_sam_likelihood(x[0], in_encl, arg_dict) + \
-						-weights['er' ] * weights['allele_2'] * encl_sam_likelihood(x[1], in_encl, arg_dict))
+		fn = lambda x: (-weights['frr'] * FRR_sam_likelihood (x, in_frep, arg_dict, weights) + \
+						-weights['srp'] * span_sam_likelihood(x, in_span, arg_dict, weights) + \
+						-weights['er' ] * encl_sam_likelihood(x, in_encl, arg_dict, weights))
 
 		# for i in [1, 3, 5, 10, 20, 40, 80]:
 		# 	print i, fn([i]), encl_sam_likelihood(i, in_encl, arg_dict)
 
-		res = minimize(fn, x0 = [20,70], \
+		res = minimize(fn, x0 = [10,30], \
 							method = 'L-BFGS-B', \
 							bounds = [(1, 280), (1, 280)])
 		return [int(round(j)) for j in res.x]
 
 	else:
-		fn = lambda x: (-weights['frr'] * FRR_sam_likelihood(x[0], in_frep, arg_dict) + \
-						-weights['srp'] * span_sam_likelihood(x[0], in_span, arg_dict) + \
-						-weights['er' ] * encl_sam_likelihood(x[0], in_encl, arg_dict))
+		fn = lambda x: (-weights['frr'] * FRR_sam_likelihood(x[0], in_frep, arg_dict, weights) + \
+						-weights['srp'] * span_sam_likelihood(x[0], in_span, arg_dict, weights) + \
+						-weights['er' ] * encl_sam_likelihood(x[0], in_encl, arg_dict, weights))
 
 		# for i in [1, 3, 5, 10, 20, 40, 80]:
 		# 	print i, fn([i]), encl_sam_likelihood(i, in_encl, arg_dict)
@@ -194,19 +199,36 @@ def ml_encl_FRR_span(in_pref, exp_dir, weights):
 							bounds = [(1, 280)])
 		return [int(round(j)) for j in res.x]
 
-weights = {	'frr': 3.0, \
+weights = {	'frr': 0.8, \
 			'srp': 1.0, \
 			'er': 1.0, \
-			'allele_1': 0.75,\
-			'allele_2': 0.25}
+			'allele_1': 0.5,\
+			'allele_2': 0.5}
 exp_dir = '/storage/nmmsv/expansion-experiments/ATXN3_41_cov60_dist500_DIP/'
 # exp_dir = '/storage/nmmsv/expansion-experiments/ATXN7_24_cov50_dist700_hap/'
 
-# in_pref_pref = exp_dir + 'aligned_read/nc_'
-# arg_dict = load_profile(exp_dir)
-# print exp_dir
+in_pref_pref = exp_dir + 'aligned_read/nc_'
+arg_dict = load_profile(exp_dir)
+print exp_dir
+
+in_pref = in_pref_pref + '10'
+in_span = in_pref + '_srp.sam'
+in_encl = in_pref + '_er.sam'
+in_frep = in_pref + '_frr.sam'
+# for i in [5, 10, 20, 30, 60, 70]:
+# 	fn = lambda x: (-weights['frr'] * FRR_sam_likelihood (x, in_frep, arg_dict, weights) + \
+# 						-weights['srp'] * span_sam_likelihood(x, in_span, arg_dict, weights) + \
+# 						-weights['er' ] * encl_sam_likelihood(x, in_encl, arg_dict, weights))
+# 	print fn([20, i])
+
+fn = lambda x: (-weights['frr'] * FRR_sam_likelihood (x, in_frep, arg_dict, weights) + \
+					-weights['srp'] * span_sam_likelihood(x, in_span, arg_dict, weights) + \
+					-weights['er' ] * encl_sam_likelihood(x, in_encl, arg_dict, weights))
+# print fn([10,25])
+# print fn([10,14])
+# print fn([14,10])
 # for i in arg_dict['num_copy']:
-# 	if i > 30:
+# 	if i >= 0:
 # 		in_pref = in_pref_pref + str(i)
 # 		print i, ml_encl_FRR_span(in_pref, exp_dir, weights)
 

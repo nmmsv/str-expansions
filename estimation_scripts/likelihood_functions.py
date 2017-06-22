@@ -172,7 +172,7 @@ def encl_read_prob(arg_dict,A, sample_ncopy):
 	# FILLLLLL INNNNN Stutter model
 	u = 0.01
 	d = 0.02
-	p = 1
+	p = 0.95
 	delta = sample_ncopy - A
 	if delta == 0:
 		return 1 - u - d

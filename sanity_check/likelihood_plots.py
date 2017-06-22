@@ -251,7 +251,7 @@ def likelihood_plot(arg_dict, sam_pref, weights, outPath):
 	coverage = arg_dict['coverage']
 	# file_len_list = [0,5,10,15,20,30,40,50,60,70,80,90,100,120,150,180,210,250]
 	file_len_list = arg_dict['num_copy']
-	file_len_list = [5, 10, 20, 30, 40, 60]
+	file_len_list = [3, 5, 10, 20, 30, 40, 60]
 	colors = cm.rainbow(np.linspace(0, 1, len(file_len_list)))
 
 	fig = plt.figure()
@@ -270,17 +270,12 @@ def likelihood_plot(arg_dict, sam_pref, weights, outPath):
 		allele_range = range(0, 70)
 		for allele in allele_range:
 			if 'diploid' in arg_dict and arg_dict['diploid'] == 'True':
-				likelihood = -1 * (-weights['frr'] * weights['allele_1'] * FRR_sam_likelihood (fixed_allele, in_frep, arg_dict) + \
-								-weights['frr'] * weights['allele_2'] * FRR_sam_likelihood (allele, in_frep, arg_dict) + \
-								-weights['srp'] * weights['allele_1'] * span_sam_likelihood(fixed_allele, in_span, arg_dict) + \
-								-weights['srp'] * weights['allele_2'] * span_sam_likelihood(allele, in_span, arg_dict) + \
-								-weights['er' ] * weights['allele_1'] * encl_sam_likelihood(fixed_allele, in_encl, arg_dict) + \
-								-weights['er' ] * weights['allele_2'] * encl_sam_likelihood(allele, in_encl, arg_dict))
-
+				x = [allele, fixed_allele]
 			else:
-				likelihood = -1 * (-weights['frr'] * FRR_sam_likelihood(allele, in_frep, arg_dict) + \
-								-weights['srp'] * span_sam_likelihood(allele, in_span, arg_dict) + \
-								-weights['er' ] * encl_sam_likelihood(allele, in_encl, arg_dict))
+				x = allele
+			likelihood = -1 * (-weights['frr'] * FRR_sam_likelihood (x, in_frep, arg_dict, weights) + \
+					-weights['srp'] * span_sam_likelihood(x, in_span, arg_dict, weights) + \
+					-weights['er' ] * encl_sam_likelihood(x, in_encl, arg_dict, weights))
 
 			likelihood_array.append(likelihood)
 		print 'Plotting for file:', file_num
@@ -336,11 +331,6 @@ outPath_class_diff = '/storage/nmmsv/str-expansions/sanity_check/diff/ATXN3_250_
 # diff_plot(arg_dict, sam_pref, outPath_class_diff)
 
 
-
-weights = {	'frr': 0.8, \
-			'srp': 1.0, \
-			'er':  1.0}
-
 exp_dir = '/storage/nmmsv/expansion-experiments/ATXN7_27_cov60_dist500_hap_viz/'
 outpath_likelihood = '/storage/nmmsv/str-expansions/sanity_check/three_class/27_ATXN7_60.pdf'
 # exp_dir = '/storage/nmmsv/expansion-experiments/ATXN7_28_cov250_dist500_hap_viz/'
@@ -352,9 +342,9 @@ outpath_likelihood = '/storage/nmmsv/str-expansions/sanity_check/three_class/27_
 # exp_dir = '/storage/nmmsv/expansion-experiments/ATXN3_33_cov250_dist500_hap_viz/'
 # exp_dir = '/storage/nmmsv/expansion-experiments/CACNA1A_34_cov250_dist500_hap_viz/'
 exp_dir = '/storage/nmmsv/expansion-experiments/ATXN3_41_cov60_dist500_DIP/'
-outpath_likelihood = '/storage/nmmsv/str-expansions/sanity_check/three_class/DIP_41_ATXN3_60.pdf'
-exp_dir = '/storage/nmmsv/expansion-experiments/ATXN3_39_cov60_dist500_hap_viz/'
-outpath_likelihood = '/storage/nmmsv/str-expansions/sanity_check/three_class/39_ATXN3_60.pdf'
+outpath_likelihood = '/storage/nmmsv/str-expansions/sanity_check/three_class/DIP_41_ATXN3_60_95.pdf'
+# exp_dir = '/storage/nmmsv/expansion-experiments/ATXN3_39_cov60_dist500_hap_viz/'
+# outpath_likelihood = '/storage/nmmsv/str-expansions/sanity_check/three_class/39_ATXN3_60.pdf'
 
 
 arg_dict = load_profile(exp_dir)
@@ -364,7 +354,7 @@ arg_dict = load_profile(exp_dir)
 # 	file_nc = str(i)
 # 	print i,'\t\t', ml_FRR_spanning(exp_dir + 'aligned_read/nc_' + file_nc, exp_dir, weights)
 # print 
-weights = {	'frr': 0.0, \
+weights = {	'frr': 0.8, \
 			'srp': 1.0, \
 			'er': 1.0, \
 			'allele_1': 0.5,\

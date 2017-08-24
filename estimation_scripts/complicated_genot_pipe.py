@@ -107,7 +107,15 @@ def likelihood(in_pref, exp_dir, weights, alleles):
 
 
 exp_dir = '/storage/nmmsv/expansion-experiments/ATXN3_41_cov60_dist500_DIP/'
+exp_dir = '/storage/nmmsv/expansion-experiments/ATXN3_45_cov60_dist500_DIP_const40/'
 
+exp_dir = '/storage/nmmsv/expansion-experiments/ATXN7_51_cov20_dist500_DIP_const40/'
+exp_dir = '/storage/nmmsv/expansion-experiments/ATXN7_52_cov60_dist500_DIP_const70/'
+# exp_dir = '/storage/nmmsv/expansion-experiments/ATXN7_49_cov60_dist500_DIP_const40/'
+# exp_dir = '/storage/nmmsv/expansion-experiments/ATXN7_48_cov80_dist500_DIP_const40/'
+# exp_dir = '/storage/nmmsv/expansion-experiments/CACNA1A_46_cov80_dist500_DIP_const20/'
+# exp_dir = '/storage/nmmsv/expansion-experiments/CACNA1A_47_cov80_dist500_DIP_const50/'
+print exp_dir
 weights = {	'frr': 			0.8, \
 				'srp': 		1.0, \
 				'er': 		1.0, \
@@ -123,6 +131,13 @@ oalp_params = {'steps': 	30, \
 arg_dict = load_profile(exp_dir)
 in_pref_pref = exp_dir + 'aligned_read/nc_'
 ml_range = [arg_dict['read_len'] / len(arg_dict['motif']) - 2, 260]
+if 'constant_allele' in arg_dict:
+	constant_allele = arg_dict['constant_allele']
+else:
+	constant_allele = arg_dict['ref_allele_count']
+
+print 'const', constant_allele
+
 print '## True\t\tEstimate'
 for i in arg_dict['num_copy']:
 	# if i > 3 and i <= 30:
@@ -133,7 +148,7 @@ for i in arg_dict['num_copy']:
 		# First, genotype enclosing
 		allele_list_1, freq_list = encl_sam_genotype(in_pref + '_er.sam', arg_dict)
 		all_alleles = all_alleles + allele_list_1
-		# print allele_list_1, freq_list
+		print allele_list_1, freq_list
 		if len(allele_list_1) == 2:
 			oalp_params['init_state'] = allele_list_1
 		elif len(allele_list_1) == 1:
@@ -166,7 +181,7 @@ for i in arg_dict['num_copy']:
 		# print ml_alleles
 
 		all_alleles = all_alleles + [ml_alleles[0]]
-		
+
 		print 'All alleles: ', all_alleles
 		max_likelihood = -10000
 		for a in all_alleles:
@@ -175,6 +190,6 @@ for i in arg_dict['num_copy']:
 				if like > max_likelihood:
 					max_likelihood = like
 					max_alleles = [a,b]
-		print '##', [14, i], '\t\t', max_alleles
+		print '##', [constant_allele, i], '\t\t', max_alleles
 
 

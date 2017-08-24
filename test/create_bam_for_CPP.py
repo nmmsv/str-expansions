@@ -32,33 +32,40 @@ if align_flag == 'False':
 
 repo_dir = '/storage/nmmsv/str-expansions/'
 base_dir = '/storage/nmmsv/expansion-experiments/'
-# ref_genome = '/storage/resources/dbase/human/hs37d5/hs37d5.fa'
-ref_genome = repo_dir + "/loci/CACNA1A_5k_region.fa"
+ref_genome = '/storage/resources/dbase/human/hs37d5/hs37d5.fa'
+# ref_genome = repo_dir + "/loci/CACNA1A_5k_region.fa"
 
 
 ###################
-locus_name = 'limited_CACNA1A'
-exp_name = locus_name + '_55_cov80_dist500_DIP_const70'
-coverage = 80
-diploid = 'True'
+locus_name = 'ATXN7'
+coverage = 100
 
+constant_allele = 30
 dist_mean  = 500
-dist_sdev  = 50
+dist_sdev  = 100
+exp_num = 1
 
+read_len = 100
 
-# copy_list = [1,3,5,7,10,12,15,20,25,30,40,50,60,70,80,90,100,120,150]
-copy_list = [12, 20, 40, 80, 100]
+exp_name = 'HAP_cpp_' + locus_name + '_' \
+				+ str(exp_num) +'_cov' + str(coverage)\
+				+ '_dist' + str(dist_mean) \
+				+ '_sd' + str(dist_sdev)\
+				+ '_rl' + str(read_len)
+
+copy_list = [1,3,5,7,10,12,15,20,25,30,40,50,60,70,80,90,100,120,150]
+# copy_list = [12, 20, 40, 80, 100]
 # copy_list = [80, 100, 120, 150, 180, 210]
 ###################
 
+diploid = 'False'
 locus = repo_dir + '/loci/'+locus_name+'.bed'
 motif, str_len = find_motif_refAll(locus)
 ref_allele = int(str_len / len(motif))
-constant_allele = 70
+
 flank_len = 3000
 base_error = 0.0
 
-read_len = 100
 mutat_rate = 0.0
 indel_frac = 0.0
 indel_xtnd = 0.0
@@ -181,41 +188,42 @@ if align_flag == 'True':
 						'--out-pref', 	out_pref, \
 						'--in-pref', 	in_pref, \
 						'--read-grp',	read_grp_header, \
-						'--num-threads',str(num_threads)])
+						'--num-threads',str(num_threads), \
+						'--cpp-data',	'1'])
 
 ##############################
 
 
-### STEP 5: Filter: Find Spanning Read Pairs #######
-for nc in copy_list:
-	in_pref = algn_read_dir + 'nc_' + str(nc)
-	out_pref = algn_read_dir + 'nc_' + str(nc) + '_srp'
-	subprocess.call(['python', 		repo_dir + '5.2_filter_spanning_only_core.py', \
-					'--out-pref', 	out_pref, \
-					'--in-pref', 	in_pref, \
-					'--exp-dir',	exp_dir ])
+# ### STEP 5: Filter: Find Spanning Read Pairs #######
+# for nc in copy_list:
+# 	in_pref = algn_read_dir + 'nc_' + str(nc)
+# 	out_pref = algn_read_dir + 'nc_' + str(nc) + '_srp'
+# 	subprocess.call(['python', 		repo_dir + '5.2_filter_spanning_only_core.py', \
+# 					'--out-pref', 	out_pref, \
+# 					'--in-pref', 	in_pref, \
+# 					'--exp-dir',	exp_dir ])
 
-##################################################################
+# ##################################################################
 
-### STEP 5: Filter: Find Enclosing Reads #######
-for nc in copy_list:
-	in_pref = algn_read_dir + 'nc_' + str(nc)
-	out_pref = algn_read_dir + 'nc_' + str(nc) + '_er'
-	subprocess.call(['python', 		repo_dir + '5.2_filter_enclosing_only_core.py', \
-					'--out-pref', 	out_pref, \
-					'--in-pref', 	in_pref, \
-					'--exp-dir',	exp_dir ])
+# ### STEP 5: Filter: Find Enclosing Reads #######
+# for nc in copy_list:
+# 	in_pref = algn_read_dir + 'nc_' + str(nc)
+# 	out_pref = algn_read_dir + 'nc_' + str(nc) + '_er'
+# 	subprocess.call(['python', 		repo_dir + '5.2_filter_enclosing_only_core.py', \
+# 					'--out-pref', 	out_pref, \
+# 					'--in-pref', 	in_pref, \
+# 					'--exp-dir',	exp_dir ])
 
-#################################################################
+# #################################################################
 
-### STEP 5: Filter: Find Fully Repetitive Reads #######
-for nc in copy_list:
-	in_pref = algn_read_dir + 'nc_' + str(nc)
-	out_pref = algn_read_dir + 'nc_' + str(nc) + '_frr'
-	subprocess.call(['python', 		repo_dir + '5.2_filter_FRR_only_core.py', \
-					'--out-pref', 	out_pref, \
-					'--in-pref', 	in_pref, \
-					'--exp-dir',	exp_dir ])
+# ### STEP 5: Filter: Find Fully Repetitive Reads #######
+# for nc in copy_list:
+# 	in_pref = algn_read_dir + 'nc_' + str(nc)
+# 	out_pref = algn_read_dir + 'nc_' + str(nc) + '_frr'
+# 	subprocess.call(['python', 		repo_dir + '5.2_filter_FRR_only_core.py', \
+# 					'--out-pref', 	out_pref, \
+# 					'--in-pref', 	in_pref, \
+# 					'--exp-dir',	exp_dir ])
 
 ##################################################################
 

@@ -7,6 +7,7 @@ parser.add_argument('--out-pref', 	type = str, required = True)
 parser.add_argument('--in-pref', 	type = str, required = True)
 parser.add_argument('--read-grp', 	type = str, required = True)
 parser.add_argument('--num-threads',type = int)
+parser.add_argument('--cpp-data', 	type = int, default = 0)
 
 args = parser.parse_args()
 
@@ -16,7 +17,7 @@ in1_file = args.in_pref + '.read1.fq'
 in2_file = args.in_pref + '.read2.fq'
 num_thrd = args.num_threads
 read_grp = args.read_grp
-
+cpp_data = int(args.cpp_data)
 
 print '# Executing bwa mem on ' + args.in_pref
 os.system('bwa mem ' + \
@@ -26,14 +27,16 @@ os.system('bwa mem ' + \
 		'-t ' + str(num_thrd) + ' ' + \
 		'-R ' + str(read_grp) + ' ' + \
 		'> ' + out_pref + '.sam')
-# os.system('samtools view -bT ' + \
-# 		ref_gen_dir + ' ' + \
-# 		out_pref + '.sam' + ' ' + 
-# 		'> ' + out_pref + '.bam')
-# os.system('samtools sort -o ' + \
-# 		out_pref + '.sorted.bam '+ \
-# 		out_pref + '.bam')
-# os.system('samtools index ' + \
-# 		out_pref + '.sorted.bam ' + \
-# 		out_pref + '.sorted.bai')
+if cpp_data == 1:
+	os.system('samtools view -bT ' + \
+			ref_gen_dir + ' ' + \
+			out_pref + '.sam' + ' ' + 
+			'> ' + out_pref + '.bam')
+	os.system('samtools sort -o ' + \
+			out_pref + '.sorted.bam '+ \
+			out_pref + '.bam')
+	os.system('samtools index ' + \
+			out_pref + '.sorted.bam ')
+	os.system('rm ' + out_pref + '.sam')
+	os.system('rm ' + out_pref + '.bam')
 # os.system('samtools index ' + out_pref + '.sorted.bam')

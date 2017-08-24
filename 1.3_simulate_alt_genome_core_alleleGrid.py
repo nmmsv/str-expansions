@@ -16,7 +16,6 @@ parser.add_argument('--motif', 		type = str, required = True)
 parser.add_argument('--flank-len', 	type = int, required = True)
 parser.add_argument('--temp-dir', 	type = str, required = True)
 parser.add_argument('--num-copy', 	type = int, required = True)
-parser.add_argument('--num-copy-2',	type = int, required = False)
 parser.add_argument('--diploid', 	type = str, required = True)
 parser.add_argument('--exp-dir', 	type = str, required = True)
 args = parser.parse_args()
@@ -33,10 +32,7 @@ diploid = args.diploid
 exp_dir = args.exp_dir
 
 arg_dict = load_profile(exp_dir)
-if args.num_copy_2 is not None:
-	constant_allele = args.num_copy_2
-else:
-	constant_allele = arg_dict['constant_allele']
+constant_allele = arg_dict['constant_allele']
 ref_allele = arg_dict['ref_allele_count']
 # STR_locus contains the information for the STR locus
 # Format: Chr	Start	End	MotifLength	nCopies

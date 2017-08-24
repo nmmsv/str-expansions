@@ -86,14 +86,14 @@ with open(in_sam, 'r') as in_sam_handle:
 				if ((RNAME == chrom and RNEXT == '=') or RNEXT == chrom) and PNEXT >= locus_end - read_len and read_class =='PreFlank':
 					abs_insert_size = np.abs((locus_start + nCopy * len(motif) - read_len) - PNEXT) + read_len
 					print 'Found ', read_class, '\t', abs_insert_size, '\t', pos, '\t', row[0]	
-					is_col = 'is:i:' + str(int(abs_insert_size))
+					is_col = 'is:i:' + str(int(abs_insert_size) - 1) # -1 to match CPP
 					out_sam_handle.write('\t'.join(row + [nc_col, ps_col, sc_col, rc_col, is_col])+'\n')
 					print
 				elif ((RNAME == chrom and RNEXT == '=') or RNEXT == chrom) and PNEXT <= locus_start and read_class =='PostFlank':
 					
 					abs_insert_size = np.abs((locus_end - nCopy * len(motif)) - PNEXT) + read_len
 					print 'Found ', read_class, '\t', abs_insert_size, '\t', pos, '\t', row[0]
-					is_col = 'is:i:' + str(int(abs_insert_size))
+					is_col = 'is:i:' + str(int(abs_insert_size) + 1) # +1 to match CPP
 					out_sam_handle.write('\t'.join(row + [nc_col, ps_col, sc_col, rc_col, is_col])+'\n')
 					print
 

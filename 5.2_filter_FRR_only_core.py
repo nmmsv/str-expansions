@@ -60,6 +60,8 @@ in_sam = in_pref + '.sam'
 print 'Filtering ' + in_pref + '.sam'
 
 list_reads = []
+out_sam_new = out_pref + '_new.sam'
+out_sam_handle_new = open(out_sam_new, 'w')
 with open(in_sam, 'r') as in_sam_handle:
 	for record in in_sam_handle:
 		if record[0] != '@':
@@ -89,6 +91,13 @@ with open(in_sam, 'r') as in_sam_handle:
 							read_class = classify_realigned_read(sample, motif, pos, nCopy, score, score_dict, read_len, margin, verbose)
 							if read_class == 'IRR':
 								list_reads.append(row[0])			# Saving read_ID of potential reads that going to be extracted
+								if PNEXT <= locus_start:
+									om_col = 'om:i:' + str(locus_start - PNEXT - read_len + 1)
+								elif PNEXT >= locus_end:
+									om_col = 'om:i:' + str(PNEXT - locus_end - 1)
+								else:
+									print 'Weird PNEXT:', PNEXT
+								out_sam_handle_new.write('\t'.join(row + [om_col])+'\n')
 								print 'Found IRR!'
 							else:
 								pass
@@ -105,6 +114,13 @@ with open(in_sam, 'r') as in_sam_handle:
 							read_class = classify_realigned_read(sample, motif, pos, nCopy, score, score_dict, read_len, margin, verbose)
 							if read_class == 'IRR':
 								list_reads.append(row[0])			# Saving read_ID of potential reads that going to be extracted
+								if PNEXT <= locus_start:
+									om_col = 'om:i:' + str(locus_start - PNEXT - read_len + 1)
+								elif PNEXT >= locus_end:
+									om_col = 'om:i:' + str(PNEXT - locus_end - 1)
+								else:
+									print 'Weird PNEXT:', PNEXT
+								out_sam_handle_new.write('\t'.join(row + [om_col])+'\n')
 							else:
 								pass
 
@@ -126,18 +142,21 @@ with open(in_sam, 'r') as in_sam_handle:
 				if row[0] in list_reads:
 					# perform realignment to check this read is the non-spanning read (not the IRR mate)
 					nCopy, pos, score = expansion_aware_realign(SEQ, pre, post, motif, score_dict, verbose)
-					nCopy_rev, pos_rev, score_rev = expansion_aware_realign(reverse_strand(sample), pre, post, motif, score_dict, verbose)
+					nCopy_rev, pos_rev, score_rev = expansion_aware_realign(reverse_strand(SEQ), pre, post, motif, score_dict, verbose)
 					if score_rev > score:
 						nCopy = nCopy_rev
 						pos = pos_rev
 						score = score_rev
-						sample = reverse_strand(sample)
+						SEQ = reverse_strand(SEQ)
 					read_class = classify_realigned_read(SEQ, motif, pos, nCopy, score, score_dict, read_len, margin, verbose)
+					# print read_class, ':  ', RNAME
+					# print sample
+					print 
 					if read_class == 'NoSpan':
 						if POS <= locus_start:
-							om_col = 'om:i:' + str(locus_start - POS)
+							om_col = 'om:i:' + str(locus_start - POS - read_len + 1)
 						elif POS >= locus_end:
-							om_col = 'om:i:' + str(POS - locus_end)
+							om_col = 'om:i:' + str(POS - locus_end - 1)
 						else:
 							print 'Weird POS:', POS
 						if row[0] == 'ATXN7_27_cov60_dist500_hap_viz_50_haplo_2617_3124_0:0:0_0:0:0_f':

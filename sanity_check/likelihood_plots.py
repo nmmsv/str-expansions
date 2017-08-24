@@ -252,6 +252,7 @@ def likelihood_plot(arg_dict, sam_pref, weights, outPath):
 	# file_len_list = [0,5,10,15,20,30,40,50,60,70,80,90,100,120,150,180,210,250]
 	file_len_list = arg_dict['num_copy']
 	file_len_list = [3, 5, 10, 20, 30, 40, 60]
+	file_len_list = [40]
 	colors = cm.rainbow(np.linspace(0, 1, len(file_len_list)))
 
 	fig = plt.figure()
@@ -266,7 +267,7 @@ def likelihood_plot(arg_dict, sam_pref, weights, outPath):
 		in_span = sam_pref + str(file_num) + '_srp.sam'
 		in_frep = sam_pref + str(file_num) + '_frr.sam'
 		likelihood_array = []
-		fixed_allele = 14
+		fixed_allele = 61
 		allele_range = range(0, 70)
 		for allele in allele_range:
 			if 'diploid' in arg_dict and arg_dict['diploid'] == 'True':
@@ -346,6 +347,9 @@ outpath_likelihood = '/storage/nmmsv/str-expansions/sanity_check/three_class/DIP
 # exp_dir = '/storage/nmmsv/expansion-experiments/ATXN3_39_cov60_dist500_hap_viz/'
 # outpath_likelihood = '/storage/nmmsv/str-expansions/sanity_check/three_class/39_ATXN3_60.pdf'
 
+
+exp_dir = '/storage/nmmsv/expansion-experiments/ATXN7_48_cov80_dist500_DIP_const40/'
+outpath_likelihood = '/storage/nmmsv/str-expansions/sanity_check/three_class/DIP_48_ATXN7_80_const40_50_61.pdf'
 
 arg_dict = load_profile(exp_dir)
 

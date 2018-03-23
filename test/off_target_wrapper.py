@@ -32,7 +32,7 @@ align_flag = 'True'
 
 repo_dir = '/storage/nmmsv/str-expansions/'
 base_dir = '/storage/nmmsv/expansion-experiments/'
-ref = 'hg38'
+ref = 'hg19'
 if ref == 'hg19':
         ref_genome = '/storage/resources/dbase/human/hg19/Homo_sapiens_assembly19.fasta'
 elif ref == 'hg38':
@@ -45,36 +45,39 @@ else:
 
 
 ###################
-locus_name = 'HTT'
-coverage = 80
+coverage = 100
 diploid = 'True'
 
-dist_mean  = 500
+dist_mean  = 400
 dist_sdev  = 50
 
 read_len = 150
-
-exp_name = 'bam_list_'+str(13)+'_' + locus_name + \
+locus_name = 'HTT'
+if ref == 'hg19':
+        bed_dir = '/storage/nmmsv/analysis/GangSTR-analyses/simulation/loci/'
+else:
+        bed_dir = '/storage/nmmsv/analysis/GangSTR-analyses/simulation/loci/hg38/'
+locus = bed_dir + locus_name + '.bed'
+exp_name = 'off_target_'+str(2)+'_' + locus_name + \
 			'_cov'+str(coverage)+\
 			'_dist'+str(dist_mean)+\
-                        '_sdev'+str(dist_sdev)+\
                         '_readLen_' + str(read_len)+\
                         '_ref_' + ref
 
 # copy_list = [1,3,5,7,10,12,15,20,25,30,40,50,60,70,80,90,100,120,150]
 # copy_list = [12, 20, 40, 80, 100]
 # copy_list = [3,7,10,15,25,30,35,40,45,50,60,80, 100, 120, 150]
-copy_list1 = [40]
-copy_list2 = range(5,300,20)
+copy_list1 = [7000]
+copy_list2 = [7000]
 ###################
 
-#locus = repo_dir + '/loci/'+locus_name+'.bed'
-locus = '/storage/nmmsv/analysis/GangSTR-analyses/simulation/loci/hg38/HTT.bed'
 
 motif, str_len = find_motif_refAll(locus)
+
 ref_allele = int(str_len / len(motif))
+
 constant_allele = 0
-flank_len = 6000
+flank_len = 1
 base_error = 0.0
 
 mutat_rate = 0.0

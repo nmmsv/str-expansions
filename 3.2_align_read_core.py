@@ -20,10 +20,15 @@ read_grp = args.read_grp
 cpp_data = int(args.cpp_data)
 
 print '# Executing bwa mem on ' + args.in_pref
+
+print
+print ref_gen_dir
+
 os.system('bwa mem ' + \
 		ref_gen_dir + ' ' +  \
 		in1_file + ' ' + \
 		in2_file + ' ' + \
+          '-M ' + \
 		'-t ' + str(num_thrd) + ' ' + \
 		'-R ' + str(read_grp) + ' ' + \
 		'> ' + out_pref + '.sam')

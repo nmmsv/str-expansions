@@ -38,7 +38,8 @@ indel_frac 	= args.indel_frac
 indel_xtnd	= args.indel_xtnd
 
 num_reads = coverage * (2 * flank_len + num_copy * len(motif)) / 2 / read_len
-
+seed = int(np.random.rand(1)[0] * 100)
+#seed = 60
 subprocess.call(['wgsim',\
 	'-d', str(dist_mean),\
 	'-s', str(dist_sdev),\
@@ -49,7 +50,7 @@ subprocess.call(['wgsim',\
 	'-N', str(num_reads),\
 	'-R', str(indel_frac),\
 	'-X', str(indel_xtnd),\
-	'-S', str(int(np.random.rand(1)[0] * 100)),\
+	         '-S', str(seed),\
 	in_file, out1_file, out2_file])
 
 

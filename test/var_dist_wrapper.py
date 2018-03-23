@@ -15,7 +15,6 @@ def find_motif_refAll(locus):
 		line = f.read().split()
 		return line[4], (int(line[2]) - int(line[1]) + 1)
 
-
 # parser = argparse.ArgumentParser('Filter sam/bam files to only keep spanning reads.')
 # # parser.add_argument('--align', type = str, required = True)
 
@@ -32,46 +31,46 @@ align_flag = 'True'
 
 repo_dir = '/storage/nmmsv/str-expansions/'
 base_dir = '/storage/nmmsv/expansion-experiments/'
-ref = 'hg38'
+run_dir = "/storage/nmmsv/analysis/GangSTR-analyses/simulation/"
+ref = 'hg19'
 if ref == 'hg19':
         ref_genome = '/storage/resources/dbase/human/hg19/Homo_sapiens_assembly19.fasta'
+        bed_dir = run_dir + "loci/" 
 elif ref == 'hg38':
         ref_genome = '/storage/nmmsv/ref_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa'
+        bed_dir = run_dir + "loci/hg38/" 
 else:
         print 'Undefined reference genome.'
 
 
-# ref_genome = repo_dir + "/loci/CACNA1A_5k_region.fa"
-
-
 ###################
-locus_name = 'HTT'
-coverage = 80
+locus_name = 'FRDA'
+coverage = 50
 diploid = 'True'
+number = 8
+read_len = 100
+#dist_mean  = range(read_len, 1100, read_len)
+dist_mean = range(300,600,100)
+dist_sdev  = [150] * len(dist_mean)
 
-dist_mean  = 500
-dist_sdev  = 50
 
-read_len = 150
 
-exp_name = 'bam_list_'+str(13)+'_' + locus_name + \
+exp_name = 'var_dist_'+str(number)+'_' + locus_name + \
 			'_cov'+str(coverage)+\
-			'_dist'+str(dist_mean)+\
-                        '_sdev'+str(dist_sdev)+\
-                        '_readLen_' + str(read_len)+\
-                        '_ref_' + ref
+			'_fixSdev'+str(max(dist_sdev))+'_readLen_' + str(read_len)
 
 # copy_list = [1,3,5,7,10,12,15,20,25,30,40,50,60,70,80,90,100,120,150]
 # copy_list = [12, 20, 40, 80, 100]
 # copy_list = [3,7,10,15,25,30,35,40,45,50,60,80, 100, 120, 150]
-copy_list1 = [40]
-copy_list2 = range(5,300,20)
+#copy_list1 = [10, 20, 35, 45, 55, 80]
+#copy_list2 = [30, 40, 50, 60, 80, 100, 120, 150, 200, 250, 300, 400]
+copy_list1 = range(6,100,12)+range(110,200,25)
+copy_list2 =  [6, 12, 17, 22]
 ###################
 
-#locus = repo_dir + '/loci/'+locus_name+'.bed'
-locus = '/storage/nmmsv/analysis/GangSTR-analyses/simulation/loci/hg38/HTT.bed'
-
+locus = bed_dir+locus_name+'.bed'
 motif, str_len = find_motif_refAll(locus)
+
 ref_allele = int(str_len / len(motif))
 constant_allele = 0
 flank_len = 6000
@@ -131,8 +130,8 @@ if align_flag == 'True':
 						'--exp-dir',		exp_dir, \
 						'--read-len',		str(read_len), \
 						'--coverage',		str(coverage), \
-						'--read-ins-mean',	str(dist_mean), \
-						'--read-ins-stddev',str(dist_sdev), \
+						'--read-ins-mean',	str(max(dist_mean)), \
+						'--read-ins-stddev',str(max(dist_sdev)), \
 						'--num-copy'] +		[str(nc) for nc in copy_list1] + \
 						['--base-error',		str(base_error), \
 						'--num-threads',	str(num_threads), \
@@ -166,47 +165,50 @@ if align_flag == 'True':
 
 ### STEP 2: wgsim ###########
 if align_flag == 'True':
-	for nc1 in copy_list1:
-		for nc2 in copy_list2:
-			in_path = sim_gen_dir + 'nc_' + str(nc1) + '_' + str(nc2) + '.fa'
-			out_pref= sim_read_dir + 'nc_' + str(nc1) + '_' + str(nc2)
-			subprocess.call(['python', 		repo_dir + '2.2_read_simulated_data_core.py', \
-							'--exp-name', 	exp_name, \
-							'--fasta-in',	in_path, \
-							'--out-pref', 	out_pref, \
-							'--coverage',	str(coverage), \
-							'--num-copy',	str(nc), \
-							'--dist-mean', 	str(dist_mean), \
-							'--dist-sdev', 	str(dist_sdev), \
-							'--motif',		motif, \
-							'--base-error',	str(base_error), \
-							'--flank-len', 	str(flank_len), \
-							'--read-len',	str(read_len), \
-							'--mutat-rate',	str(mutat_rate), \
-							'--indel-frac', str(indel_frac), \
-							'--indel-xtnd', str(indel_xtnd)])
+        for dm_index in range(len(dist_mean)):
+                for nc1 in copy_list1:
+                        for nc2 in copy_list2:
+                                in_path = sim_gen_dir + 'nc_' + str(nc1) + '_' + str(nc2) + '.fa'
+                                out_pref= sim_read_dir + 'is' + str(dist_mean[dm_index]) + '_nc' + str(nc1) + '_' + str(nc2)
+                                subprocess.call(['python', 		repo_dir + '2.2_read_simulated_data_core.py', \
+                                                 '--exp-name', 	exp_name, \
+                                                 '--fasta-in',	in_path, \
+                                                 '--out-pref', 	out_pref, \
+                                                 '--coverage',	str(coverage), \
+                                                 '--num-copy',	str(nc), \
+                                                 '--dist-mean', 	str(dist_mean[dm_index]), \
+                                                 '--dist-sdev', 	str(dist_sdev[dm_index]), \
+                                                 '--motif',		motif, \
+                                                 '--base-error',	str(base_error), \
+                                                 '--flank-len', 	str(flank_len), \
+                                                 '--read-len',	str(read_len), \
+                                                 '--mutat-rate',	str(mutat_rate), \
+                                                 '--indel-frac', str(indel_frac), \
+                                                 '--indel-xtnd', str(indel_xtnd)])
 
 #############################
 
 ### STEP 3: Alignment #######
-with open(algn_read_dir + 'bamlist.txt', 'w') as bamlist:
-	if align_flag == 'True':
-		for nc1 in copy_list1:
-			for nc2 in copy_list2:
-				read_grp_header = 	'\'@RG\\tID:' + exp_name + \
-									'\\tSM:' + str(nc1) + '_' + str(nc2) + \
-									'\\tLB:' + str(coverage)+ \
-									'\\tPL:' + str(base_error) + '\''
-				in_pref = sim_read_dir + 'nc_' + str(nc1) + '_' + str(nc2)
-				out_pref = algn_read_dir + 'nc_' + str(nc1) + '_' + str(nc2)
-				subprocess.call(['python', 		repo_dir + '3.2_align_read_core.py', \
-								'--ref-genome', ref_genome, \
-								'--out-pref', 	out_pref, \
-								'--in-pref', 	in_pref, \
-								'--read-grp',	read_grp_header, \
-								'--num-threads',str(num_threads), \
-								'--cpp-data',	str(1)])
-				bamlist.write(out_pref+'.sorted.bam\n')
+with open(algn_read_dir + 'insert_size_list.txt', 'w') as islist:
+        for dm_index in range(len(dist_mean)):
+                islist.write(str(dist_mean[dm_index]) + '\t' + str(dist_sdev[dm_index]) + '\n')
+                with open(algn_read_dir + str(dist_mean[dm_index]) + '_bamlist.txt', 'w') as bamlist:
+                        for nc1 in copy_list1:
+                                for nc2 in copy_list2:
+                                        read_grp_header = 	'\'@RG\\tID:' + exp_name + \
+                                                                '\\tSM:' + str(nc1) + '_' + str(nc2) + \
+                                                                '\\tLB:' + str(coverage)+ \
+                                                                '\\tPL:' + str(base_error) + '\''
+                                        in_pref = sim_read_dir + 'is' + str(dist_mean[dm_index]) + '_nc' + str(nc1) + '_' + str(nc2)
+                                        out_pref = algn_read_dir + 'is' + str(dist_mean[dm_index]) + '_nc' + str(nc1) + '_' + str(nc2)
+                                        subprocess.call(['python', 		repo_dir + '3.2_align_read_core.py', \
+                                                         '--ref-genome', ref_genome, \
+                                                         '--out-pref', 	out_pref, \
+                                                         '--in-pref', 	in_pref, \
+                                                         '--read-grp',	read_grp_header, \
+                                                         '--num-threads',str(num_threads), \
+                                                         '--cpp-data',	str(1)])
+                                        bamlist.write(out_pref+'.sorted.bam\n')
 
 ##############################
 

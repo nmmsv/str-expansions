@@ -45,20 +45,19 @@ else:
 
 ###################
 locus_name = 'HTT'
-coverage = 50
+cov_list = [5,10, 20, 30, 50, 70, 100, 150, 250]
 diploid = 'True'
-number = 12
+number = 1
 read_len = 100
-#dist_mean  = range(read_len, 1100, read_len)
-dist_mean = range(200,801,100)
-dist_sdev  = [100] * len(dist_mean)
+dist_mean = 500
+dist_sdev  = 100
 copy_list1 = range(10,100,12) + range(110, 500, 20)
 copy_list2 =  [20, 30, 40]
 
 
-exp_name = 'var_dist_'+str(number)+'_' + locus_name + \
-			'_cov'+str(coverage)+\
-			'_fixSdev'+str(max(dist_sdev))+'_readLen_' + str(read_len)
+exp_name = 'var_varcov_'+str(number)+'_' + locus_name + \
+			'_readlen'+str(read_len)+\
+			'_distmean_' + str(dist_mean)
 
 
 ###################
@@ -124,9 +123,9 @@ if align_flag == 'True':
 						'--repo-dir',		repo_dir, \
 						'--exp-dir',		exp_dir, \
 						'--read-len',		str(read_len), \
-						'--coverage',		str(coverage), \
-						'--read-ins-mean',	str(max(dist_mean)), \
-						'--read-ins-stddev',str(max(dist_sdev)), \
+						'--coverage',		str(max(cov_list)), \
+						'--read-ins-mean',	str(dist_mean), \
+						'--read-ins-stddev',str(dist_sdev), \
 						'--num-copy'] +		[str(nc) for nc in copy_list1] + \
 						['--base-error',		str(base_error), \
 						'--num-threads',	str(num_threads), \
@@ -160,19 +159,19 @@ if align_flag == 'True':
 
 ### STEP 2: wgsim ###########
 if align_flag == 'True':
-        for dm_index in range(len(dist_mean)):
+        for cov_index in range(len(cov_list)):
                 for nc1 in copy_list1:
                         for nc2 in copy_list2:
                                 in_path = sim_gen_dir + 'nc_' + str(nc1) + '_' + str(nc2) + '.fa'
-                                out_pref= sim_read_dir + 'is' + str(dist_mean[dm_index]) + '_nc' + str(nc1) + '_' + str(nc2)
+                                out_pref= sim_read_dir + 'is' + str(cov_list[cov_index]) + '_nc' + str(nc1) + '_' + str(nc2)
                                 subprocess.call(['python', 		repo_dir + '2.2_read_simulated_data_core.py', \
                                                  '--exp-name', 	exp_name, \
                                                  '--fasta-in',	in_path, \
                                                  '--out-pref', 	out_pref, \
-                                                 '--coverage',	str(coverage), \
+                                                 '--coverage',	str(cov_list[cov_index]), \
                                                  '--num-copy',	str(nc), \
-                                                 '--dist-mean', 	str(dist_mean[dm_index]), \
-                                                 '--dist-sdev', 	str(dist_sdev[dm_index]), \
+                                                 '--dist-mean', 	str(dist_mean), \
+                                                 '--dist-sdev', 	str(dist_sdev), \
                                                  '--motif',		motif, \
                                                  '--base-error',	str(base_error), \
                                                  '--flank-len', 	str(flank_len), \
@@ -184,18 +183,18 @@ if align_flag == 'True':
 #############################
 
 ### STEP 3: Alignment #######
-with open(algn_read_dir + 'insert_size_list.txt', 'w') as islist:
-        for dm_index in range(len(dist_mean)):
-                islist.write(str(dist_mean[dm_index]) + '\t' + str(dist_sdev[dm_index]) + '\n')
-                with open(algn_read_dir + str(dist_mean[dm_index]) + '_bamlist.txt', 'w') as bamlist:
+with open(algn_read_dir + 'readlen_list.txt', 'w') as islist:
+        for cov_index in range(len(cov_list)):
+                islist.write(str(cov_list[cov_index]) + '\n')
+                with open(algn_read_dir + str(cov_list[cov_index]) + '_bamlist.txt', 'w') as bamlist:
                         for nc1 in copy_list1:
                                 for nc2 in copy_list2:
                                         read_grp_header = 	'\'@RG\\tID:' + exp_name + \
                                                                 '\\tSM:' + str(nc1) + '_' + str(nc2) + \
-                                                                '\\tLB:' + str(coverage)+ \
+                                                                '\\tLB:' + str(max(cov_list))+ \
                                                                 '\\tPL:' + str(base_error) + '\''
-                                        in_pref = sim_read_dir + 'is' + str(dist_mean[dm_index]) + '_nc' + str(nc1) + '_' + str(nc2)
-                                        out_pref = algn_read_dir + 'is' + str(dist_mean[dm_index]) + '_nc' + str(nc1) + '_' + str(nc2)
+                                        in_pref = sim_read_dir + 'is' + str(cov_list[cov_index]) + '_nc' + str(nc1) + '_' + str(nc2)
+                                        out_pref = algn_read_dir + 'is' + str(cov_list[cov_index]) + '_nc' + str(nc1) + '_' + str(nc2)
                                         subprocess.call(['python', 		repo_dir + '3.2_align_read_core.py', \
                                                          '--ref-genome', ref_genome, \
                                                          '--out-pref', 	out_pref, \

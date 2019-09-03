@@ -44,16 +44,17 @@ else:
 
 
 ###################
-locus_name = 'HTT'
+locus_name = 'C9ORF72'
 cov_list = [5,10, 20, 30, 50, 70, 100, 150, 250]
 diploid = 'True'
-number = 1
-read_len = 100
+number = 3
+read_len = 150
 dist_mean = 500
 dist_sdev  = 100
-copy_list1 = range(10,100,12) + range(110, 500, 20)
-copy_list2 =  [20, 30, 40]
-
+#copy_list1 = range(10,100,12) + range(110, 500, 20)
+#copy_list2 =  [20, 30, 40]
+copy_list1 = range(5,1010,100)
+copy_list2 = range(5, 31, 5)
 
 exp_name = 'var_varcov_'+str(number)+'_' + locus_name + \
 			'_readlen'+str(read_len)+\
@@ -67,8 +68,8 @@ motif, str_len = find_motif_refAll(locus)
 
 ref_allele = int(str_len / len(motif))
 constant_allele = 0
-flank_len = 6000
-base_error = 0.0
+flank_len = 10000
+base_error = 0.005
 
 mutat_rate = 0.0
 indel_frac = 0.0
